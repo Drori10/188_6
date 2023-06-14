@@ -54,7 +54,11 @@ app.post('/Ingredients', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'Ingredients.html'));
 });
 
-//Recipe Route
+//Recipe Route - GET
+app.get('/Recipes', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'Recipes.html'));
+});
+//Recipe Route - POST
 app.post('/Recipes', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'Recipes.html'));
 });
