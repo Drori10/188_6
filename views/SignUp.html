@@ -18,14 +18,14 @@
       <img id="logo" src="/racoon.png" alt="Logo" height="175px" width="175px">
     </div>
     <h2>Sign Up</h2>
-    <form action="/SignIn" method="POST">
+    <form action="/Ingredients" method="POST">
       <div class="form-group">
         <label for="fullName">Full Name</label>
         <input type="text" id="fullName" name="fullName" required>
       </div>
       <div class="form-group">
         <label for="idNumber">ID Number</label>
-        <input type="text" id="idNumber" name="idNumber" required>
+        <input type="text" id="idNumber" name="idNumber" pattern="[0-9]{9}" required>
       </div>
       <div class="form-group">
         <label for="username">Username</label>
