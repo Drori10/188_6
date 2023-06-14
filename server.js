@@ -16,24 +16,41 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up routes
 
-// Home page route
+// Start page route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'SignIn.html'));
 });
 
-//Sign In Route
-app.get('/SignIn.html', (req, res) => {
+// Home page route
+app.get('/About', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'About.html'));
+});
+
+//Sign In Route - GET
+app.get('/SignIn', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'SignIn.html'));
+});
+//Sign In Route - POST
+app.post('/SignIn', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'SignIn.html'));
 });
 
-//Sign Up Route
+//Sign Up Route - GET
+app.get('/SignUp', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'SignUp.html'));
+});
+//Sign Up Route - POST
 app.post('/SignUp', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'SignUp.html'));
 });
 
-// Sign in to Ingredients Route
+
+// Ingrediients Route - GET
+app.get('/Ingredients', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'Ingredients.html'));
+});
+// Ingrediients Route - POST
 app.post('/Ingredients', (req, res) => {
-  // Retrieve the submitted form data
   res.sendFile(path.join(__dirname, 'views', 'Ingredients.html'));
 });
 
@@ -46,3 +63,10 @@ app.post('/Recipes', (req, res) => {
 app.listen(2023, () => {
   console.log('Server is running on http://localhost:2023');
 });
+
+
+//Back Route
+app.get('/Back', (req, res) => {
+  window.history.back();
+});
+
