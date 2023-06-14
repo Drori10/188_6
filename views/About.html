@@ -12,22 +12,23 @@
       <li><a href="javascript:history.back()">Back</a></li>
     </ul>
   </nav>
-    <h1>Herrods Munchies</h1>
-
-
+  <h1><br></h1>
   <main>
-    <div id="logo-container">
-      <img id="logo" src="../static/racoon.png" alt="Logo">
-    </div>
-
-    <p>Welcome to Herrods Munchies! The application gives the user suggestions of possible dishes to cook according to the ingredients the user has and the means of the kitchen at home.
-        When logging in, the user will have the option to edit the ingredients in his hands, and at the click of a button he will receive suggestions for possible dishes to prepare for him.
-        When choosing a dish, the application will automatically update the inventory of the ingredients in the hands of the user.
-        .</p>
-
-    <div class="options">
-      <button class="button" onclick="window.location.href='/SignIn'">Log in</button>
-      <button class="button" onclick="window.location.href='/Signup'">Sign up</button>
+    <div class="container">
+      <div id="logo-container">
+       <img id="logo" src="/racoon.png" alt="Logo" height="175px" width="175px">
+      </div>
+      <div class="About-Text">
+       <h4>Welcome to Herrods Munchies!</h4>
+       <p>
+        The application gives the user suggestions of possible dishes to cook according to the ingredients the user has and the means of the kitchen at home. <br>
+        When logging in, the user will have the option to edit the ingredients in his hands, and at the click of a button he will receive suggestions for possible dishes to prepare for himself. <br>
+       </p>
+      </div>
+      <div class="centered-btn">
+        <button type="submit" class="CookBtn" onclick="window.location.href='/SignIn'" style="margin-right: 20px;">Log in</button>
+        <button type="submit" class="CookBtn" onclick="window.location.href='/SignUp'">Sign Up</button>
+      </div>
     </div>
   </main>
 

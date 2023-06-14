@@ -12,9 +12,13 @@
       <li class="right-link"><a href="/SignIn">Login</a></li>
     </ul>
   </nav>
+  <h1><br></h1>
   <div class="container">
+    <div id="logo-container">
+      <img id="logo" src="/racoon.png" alt="Logo" height="175px" width="175px">
+    </div>
     <h2>Sign Up</h2>
-    <form action="login.php" method="POST">
+    <form action="/SignIn" method="POST">
       <div class="form-group">
         <label for="fullName">Full Name</label>
         <input type="text" id="fullName" name="fullName" required>
@@ -43,8 +47,8 @@
           <option value="189">189</option>
         </select>
       </div>
-      <div class="form-group">
-        <input type="submit" value="Sign In">
+      <div class="centered-btn">
+        <button type="submit" class="CookBtn">Submit</button>
       </div>
     </form>
   </div>

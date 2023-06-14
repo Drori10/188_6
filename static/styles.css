@@ -408,3 +408,9 @@ table {
   width: 25%;
   text-align: center;
 }
+
+.About-Text{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+  font-size: 150%;
+}

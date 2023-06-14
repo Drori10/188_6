@@ -14,6 +14,7 @@
         <li><a href="/About">About Us</a></li>
       </ul>
     </nav>
+    <h1><br></h1>
 
   <section class="main-content">
     <div class="container">
@@ -21,6 +22,9 @@
       <!-- home.html -->
 
 <form action="/Ingredients" method="post">
+  <div id="logo-container">
+    <img id="logo" src="/racoon.png" alt="Logo" height="175px" width="175px">
+  </div>
     <h2>Login</h2>
     <div class="form-group">
       <label for="username">Username</label>
@@ -30,9 +34,14 @@
       <label for="password">Password</label>
       <input type="password" id="password" name="password" required>
     </div>
-    <button type="submit">Sign In</button>
+    <div class="centered-btn">
+      <button type="submit" class="CookBtn">Login</button>
+    </div>
   </form>
-      <p>Don't have an account? <form action ='/SignUp' method="post"><button>Sign Up</button></form>
+      <p>Don't have an account? <form action ='/SignUp' method="post">
+      <div class="centered-btn">
+        <button type="submit" class="CookBtn">Sign-Up</button>
+      </div></form>
     </div>
   </section>
 
