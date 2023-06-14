@@ -18,27 +18,40 @@
       <img id="logo" src="/racoon.png" alt="Logo" height="175px" width="175px">
     </div>
     <h2>Sign Up</h2>
-    <form action="/Ingredients" method="POST">
+    <form action="/Ingredients" method="POST" onsubmit="return validateForm()">
+      <!--Full Name--> 
       <div class="form-group">
         <label for="fullName">Full Name</label>
         <input type="text" id="fullName" name="fullName" required>
       </div>
+      <!--ID Number--> 
       <div class="form-group">
         <label for="idNumber">ID Number</label>
-        <input type="text" id="idNumber" name="idNumber" pattern="[0-9]{9}" required>
+        <input type="text" id="idNumber" name="idNumber" pattern="[0-9]{9}" required oninvalid="this.setCustomValidity('Please enter a 9-digit number.')" oninput="this.setCustomValidity('')">
       </div>
+      <!--Username--> 
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" required>
       </div>
+      <!--Password--> 
       <div class="form-group">
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
       </div>
+      <!--Confirm Password--> 
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+        <p id="passwordMismatchError" class="error-message"></p>
+      </div>
+    
+      <!--email--> 
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
       </div>
+      <!--Course Number--> 
       <div class="form-group">
         <label for="courseNumber">Course Number</label>
         <select id="custom-select" name="custom-select" required>
@@ -48,7 +61,7 @@
         </select>
       </div>
       <div class="centered-btn">
-        <button type="submit" class="CookBtn">Submit</button>
+        <button type="submit" class="CookBtn" >Submit</button>
       </div>
     </form>
   </div>
