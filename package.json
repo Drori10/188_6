@@ -16,6 +16,5 @@
     "mysql2": "^3.3.5",
     "nodemon": "^2.0.22",
     "path": "^0.12.7"
-  },
-  "devDependencies": {}
+  }
 }
