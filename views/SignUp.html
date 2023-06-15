@@ -26,7 +26,7 @@
       <!--Full Name--> 
       <div class="form-group">
         <label for="fullName">Full Name</label>
-        <input type="text" id="fullName" name="fullName" required>
+        <input type="text" id="fullName" pattern="[A-Za-z]+ [A-Za-z]+" oninvalid="this.setCustomValidity('Please enter a valid name.')" oninput="this.setCustomValidity('')" name="fullName" required>
       </div>
       <!--ID Number--> 
       <div class="form-group">
@@ -43,13 +43,6 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
       </div>
-      <!--Confirm Password--> 
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
-        <p id="passwordMismatchError" class="error-message"></p>
-      </div>
-    
       <!--email--> 
       <div class="form-group">
         <label for="email">Email</label>
