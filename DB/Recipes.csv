@@ -1,0 +1,8 @@
+,Name,Ingredients,Instructions,Picture
+Recipe 1,Toast,Bread,Toast the bread,Toast.png
+Recipe 2,French Toast,"Bread,Eggs,Milk",Whisk eggs and milk together. Dip bread in the mixture and cook until golden brown.,FrenchToast.png
+Recipe 3,Creamy Pasta,"Pasta,Cream",Cook pasta. Heat cream and mix with cooked pasta. Season with salt and pepper.,CreamyPasta.png
+Recipe 4,Eggs on Toast,"Bread,Eggs",Toast bread and cook eggs. Place cooked eggs on top of the toast.,EggsToast.png
+Recipe 5,Toast with Cheese,"Bread,Cheese",Toast bread and add cheese on top. Melt the cheese if desired.,ToastCheese.png
+Recipe 6,Mac and Cheese,"Pasta,Cheese,Milk",Cook pasta. Melt cheese with milk and mix with cooked pasta. Season to taste.,MacCheese.png
+Recipe 7,Tomato and Olive Oil Omelette,"Eggs,Diced,Tomatoes,Olive Oil","Beat the eggs, cook them together with the tomatoes, season with salt and pepper, then fold and serve.",TomatoOmelette.png
