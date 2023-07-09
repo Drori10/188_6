@@ -1,12 +1,7 @@
-// server.js
-
-// Import required modules 
-//tedt
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-
-// Create an instance of Express
+const CRUD = require('./DB/CRUD')
 const app = express();
 
 // Serve static files from the "static" directory
@@ -16,7 +11,6 @@ app.use(express.static('static'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up routes
-
 // Start page route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'SignIn.html'));
@@ -45,8 +39,7 @@ app.post('/SignUp', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'SignUp.html'));
 });
 
-
-// Ingrediients Route - GET
+// Ingredients Route - GET
 app.get('/Ingredients', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'Ingredients.html'));
 });
@@ -64,14 +57,24 @@ app.post('/Recipes', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'Recipes.html'));
 });
 
+//Back Route
+app.get('/Back', (req, res) => {
+  window.history.back();
+});
+
 // Start the server
 app.listen(2023, () => {
   console.log('Server is running on http://localhost:2023');
 });
 
 
-//Back Route
-app.get('/Back', (req, res) => {
-  window.history.back();
+//*********DB
+// Create the table when the server starts
+db.CreateUserTable(null, {
+  render: function (view, data) {
+    console.log(data.v1); // Log the result
+  },
+  status: function (statusCode) {
+    // Handle status if needed
+  }
 });
-
