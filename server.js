@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const CRUD = require('./DB/CRUD')
+const CRUD = require('./DB/CRUD');
+const { DB } = require('./DB/DB.config');
 const app = express();
 
 // Serve static files from the "static" directory
@@ -11,6 +12,30 @@ app.use(express.static('static'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up routes
+
+//*********DB
+// Create the table when the server starts
+CRUD.CreateUserTable(null, {
+  render: function (view, data) {
+    console.log(data.v1); // Log the result
+  },
+  status: function (statusCode) {
+    // Handle status if needed
+  }
+});
+
+// Handle form submission and redirect to '/ingredients'
+app.post('/NewSignUp', (req, res) => {
+  CRUD.InsertNewUser(req.body, {
+    send: function (response) {
+      res.redirect('/Ingredients');
+    },
+    status: function (statusCode) {
+      // Handle status if needed
+    }
+  });
+});
+
 // Start page route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'SignIn.html'));
@@ -68,13 +93,3 @@ app.listen(2023, () => {
 });
 
 
-//*********DB
-// Create the table when the server starts
-db.CreateUserTable(null, {
-  render: function (view, data) {
-    console.log(data.v1); // Log the result
-  },
-  status: function (statusCode) {
-    // Handle status if needed
-  }
-});
