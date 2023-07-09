@@ -44,4 +44,19 @@ const CreateUserTable = (req,res)=>{
             return;
         });};
 
-        module.exports = {InsertNewUser, CreateUserTable}
+        const SelectAllUsers = (req,res)=>{
+            const Q3 = 'select * from USERS';
+            sql.query(Q3, (err,mysqlres)=>{
+                if (err) {
+                    console.log(err);
+                    res.status(400).send("cannot find users");
+                    return;
+                }
+                //res.send(mysqlres);
+                res.render('selctAll', {V1:mysqlres})
+                console.log("found table");
+                return;
+            })
+        };
+
+        module.exports = {InsertNewUser, CreateUserTable, SelectAllUsers}

@@ -33,8 +33,9 @@ app.post('/NewSignUp', (req, res) => {
     status: function (statusCode) {
       // Handle status if needed
     }
-  });
+  }); 
 });
+app.get('/selectAll', CRUD.SelectAllUsers)
 
 // Start page route
 app.get('/', (req, res) => {
