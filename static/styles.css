@@ -272,11 +272,6 @@ h2 {
   margin-bottom: 20px;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
-
 .form-group {
   margin-bottom: 20px;
 }
@@ -459,7 +454,7 @@ table {
   width: 100%;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   text-align: center;
-  font-size: 125%;
+  font-size: 150%;
   font-weight: bold;
   margin-bottom: 5px;
   display: block;
@@ -470,11 +465,22 @@ table {
   width: 100%;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   text-align: center;
-  font-size: 75%;
+  font-size: 100%;
   font-weight: bold;
   margin-bottom: 5px;
   display: block;
   padding-top: 25px;
 }
 
+.ItdImg{
+  width: 30%;
+}
+
+.ItdName{
+  width: 40%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+  font-size: 300%;
+  font-weight: bold;
+}
 

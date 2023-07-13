@@ -1,6 +1,6 @@
 doctype html
 head
-  title Herrods Munchies - Ingredients
+  title Herrods Munchies - Recipes
   link(rel='stylesheet' href='styles.css')
   script(src='nightmode.js')
 nav.animated.fade-in
@@ -9,7 +9,7 @@ nav.animated.fade-in
       a(href='/PAbout') About Us
     li
     li
-      a(href='/PRecipes') All Recipes
+      a(href='/PIngredients') Edit Ingredients
   ul.navbar-right
     li
       button(onclick='toggleNightMode()') Toggle Night Mode
@@ -17,56 +17,23 @@ nav.animated.fade-in
       a(href='/PSignIn') Log Out
 main
   .container
+    #logo-container
+      img#logo(src='racoon.png' alt='Logo' height='175px' width='175px')
+    h2 Meals you can cook
+    br
     form#ingredients-form(action='/PRecipes' method='post')
-      #logo-container
-        img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
-      h2(style='text-align: center;') Enter the ingredients you have below:
       table
-        tr
-          td(style='width: 50%;')
-            img(src='/IMG/Pasta.png' alt='Pasta' height='200px' width='200px')
-          td
-            label.IMG-label Pasta
-          td.checkbox-td
-            input.checkmark(type='checkbox')
-        tr
-          td(style='width: 50%;')
-            img(src='/IMG/Eggs.png' alt='Eggs' height='200px' width='200px')
-          td
-            label.IMG-label Eggs
-          td.checkbox-td
-            input.checkmark(type='checkbox')
-        tr
-          td(style='width: 50%;')
-            img(src='/IMG/Bread.jpg' alt='Bread' height='200px' width='200px')
-          td
-            label.IMG-label Bread
-          td.checkbox-td
-            input.checkmark(type='checkbox')
-        tr
-          td(style='width: 50%;')
-            img(src='/IMG/Cheese.jpg' alt='Cheese' height='200px' width='200px')
-          td
-            label.IMG-label Cheese
-          td.checkbox-td
-            input.checkmark(type='checkbox')
-        tr
-          td(style='width: 50%;')
-            img(src='/IMG/Cream.jpg' alt='Cream' height='200px' width='200px')
-          td
-            label.IMG-label Cream
-          td.checkbox-td
-            input.checkmark(type='checkbox')
-        tr
-          td(style='width: 50%;')
-            img(src='/IMG/Milk.jpg' alt='Milk' height='200px' width='170px')
-          td
-            label.IMG-label Milk
-          td.checkbox-td
-            input.checkmark(type='checkbox')
-      .centered-btn
-        button.CookBtn(type='submit') Let&apos;s Cook!
-    // Suggestions and other content will be displayed dynamically
+        each row in IngData
+          tr.container
+              td.ItdImg 
+                  img(src='/Ing/' + row.Picture, alt=row.Name, height="200px", width="200px")
+              td.ItdName= row.Name
+              td.checkbox-td
+                  input.checkmark(type='checkbox')
+      br
+      button.CookBtn(type='submit') Let&apos;s Cook!
+  
+
 footer
   // Footer content goes here
 // script src="script.js"></script

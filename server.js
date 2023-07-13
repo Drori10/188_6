@@ -4,11 +4,9 @@ const path = require('path');
 const CRUD = require('./DB/CRUD');
 const { DB } = require('./DB/DB.config');
 const app = express();
-
 const csv = require('csv-parser');
-const fs = require('fs');
+const fs = require('fs'); //for csv data reading
 
-// Serve static files from the "static" directory
 app.use(express.static('static'));
 
 // Parse URL-encoded bodies
@@ -16,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //DB shit
 const RecipesData = [];
+const IngData = [];
 
 fs.createReadStream('DB/Recipes.csv')
   .pipe(csv())
@@ -27,11 +26,18 @@ fs.createReadStream('DB/Recipes.csv')
     // Continue with rendering the Pug template or processing the data
   });
 
-  app.get('/showdata', (req, res) => {
-    res.render('showdata', { RecipesData });
+  fs.createReadStream('DB/Ingredients.csv')
+  .pipe(csv())
+  .on('data', (row) => {
+    IngData.push(row);
+  })
+  .on('end', () => {
+    console.log('CSV file successfully processed.');
+    // Continue with rendering the Pug template or processing the data
   });
+
   app.get('/test', (req, res) => {
-    res.render('RTemplate', { RecipesData });
+    res.render('DBING', { IngData });
   });
 
 
@@ -52,16 +58,16 @@ app.post('/PSignUp', (req, res) => {
   res.render('SignUp');
 });
 app.get('/PIngredients', (req, res) => {
-  res.render('Ingredients');
+  res.render('Ingredients', { IngData });
 });
 app.post('/PIngredients', (req, res) => {
-  res.render('Ingredients');
-});
+  res.render('Ingredients', { IngData });
+  });
 app.get('/PRecipes', (req, res) => {
-  res.render('Recipes');
+  res.render('Recipes', { RecipesData });
 });
 app.post('/PRecipes', (req, res) => {
-  res.render('Recipes');
+  res.render('Recipes', { RecipesData });
 });
 
 

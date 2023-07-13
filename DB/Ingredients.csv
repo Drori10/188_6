@@ -1,8 +1,9 @@
-﻿RecipeID,Name,Ingredients,Instructions,Picture
-1,Grilled Cheese,"Bread, Cheese","Take 2 slices of bread, put a slice of cheese between them and put in the toaster.",Toast.png
-2,French Toast,"Bread, Eggs, Milk",Whisk eggs and milk together. Dip bread in the mixture and cook until golden brown.,FrenchToast.png
-3,Creamy Pasta,"Pasta, Cream",Cook pasta. Heat cream and mix with cooked pasta. Season with salt and pepper.,CreamyPasta.png
-4,Eggs on Toast,"Bread, Eggs",Toast bread and cook eggs. Place cooked eggs on top of toast.,EggsOnToast.png
-5,Mac and Cheese,"Pasta, Cheese, Milk",Cook pasta. Melt cheese with milk and mix with cooked pasta. Season to taste.,MacNCheese.png
-6,Shakshuka,"Eggs, Tomatoes","To make shakshuka, sauté tomatoes in olive oil, then crack eggs into the tomato sauce and cook until desired doneness.",Shakshuka.png
-7,Cheese Omelet,"Eggs, Cheese","Whisk eggs, add cheese, and cook in a pan until the omelette is ready and the cheese is melted.",CheeseOmelette.png
+﻿IngID,Name,Picture
+1,Bread,Bread.png
+2,Cheese,Cheese.png
+3,Pasta,Pasta.png
+4,Eggs,Eggs.png
+5,Milk,Milk.png
+6,Cream,Cream.png
+7,Tomato,Tomato.png
+8,Pancake Mix,PancakeMix.png
