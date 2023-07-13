@@ -18,14 +18,14 @@ nav.animated.fade-in
 main
   .container
     #logo-container
-      img#logo(src='racoon.png' alt='Logo' height='175px' width='175px')
+      img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
     h2 Meals you can cook
     br
     table
       each row in RecipesData
         tr.container
           td.RtdImg 
-             img(src='/Meals/' + row.Picture, alt=row.Name, height="200px", width="200px")
+             img(src='/IMG/Recipes/' + row.Picture, alt=row.Name, height="200px", width="200px")
           td.RtdName= row.Name
           td.RtdInst= row.Instructions
           //td.RtdIng= row.Ingredients

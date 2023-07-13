@@ -18,7 +18,7 @@ nav.animated.fade-in
 main
   .container
     #logo-container
-      img#logo(src='racoon.png' alt='Logo' height='175px' width='175px')
+      img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
     h2 Meals you can cook
     br
     form#ingredients-form(action='/PRecipes' method='post')
@@ -26,7 +26,7 @@ main
         each row in IngData
           tr.container
               td.ItdImg 
-                  img(src='/Ing/' + row.Picture, alt=row.Name, height="200px", width="200px")
+                  img(src='/IMG/Ing/' + row.Picture, alt=row.Name, height="200px", width="200px")
               td.ItdName= row.Name
               td.checkbox-td
                   input.checkmark(type='checkbox')

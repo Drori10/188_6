@@ -85,16 +85,18 @@ CRUD.CreateUserTable(null, {
 });
 
 // Handle form submission and redirect to '/ingredients'
-app.post('/NewSignUp', (req, res) => {
+app.get('/NewSignUp', (req, res) => {
+  console.log(req.body)
   CRUD.InsertNewUser(req.body, {
     send: function (response) {
-      res.redirect('/Ingredients');
+      res.render('Ingredients', { IngData });
     },
     status: function (statusCode) {
       // Handle status if needed
     }
   }); 
 });
+
 app.get('/selectAll', CRUD.SelectAllUsers)
 
 // Start page route

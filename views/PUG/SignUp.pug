@@ -15,17 +15,17 @@ nav.animated.fade-in
 p
 .container
   #logo-container
-    img#logo(src='racoon.png' alt='Logo' height='175px' width='175px')
+    img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
   h2 Sign Up
-  form(action='/NewSignUp' method='POST' onsubmit='return validateForm()')
+  form(action='/NewSignUp' method='GET' onsubmit='return validateForm()')
     // Full Name
     .form-group
-      label(for='fullName') Full Name
-      input#fullName(type='text' pattern='[A-Za-z]+ [A-Za-z]+' oninvalid="this.setCustomValidity('Please enter a valid full name.')" oninput="this.setCustomValidity('')" name='fullName' required='')
+      label(for='fullname') Full Name
+      input#fullName(type='text' pattern='[A-Za-z]+ [A-Za-z]+' oninvalid="this.setCustomValidity('Please enter a valid full name.')" oninput="this.setCustomValidity('')" name='fullname' required='')
     // ID Number
     .form-group
       label(for='idNumber') ID Number
-      input#idNumber(type='text' name='idNumber' pattern='[0-9]{9}' required='' oninvalid="this.setCustomValidity('Please enter a 9-digit number.')" oninput="this.setCustomValidity('')")
+      input#idNumber(type='text' name='idnumber' pattern='[0-9]{9}' required='' oninvalid="this.setCustomValidity('Please enter a 9-digit number.')" oninput="this.setCustomValidity('')")
     // Username
     .form-group
       label(for='username') Username
@@ -41,13 +41,12 @@ p
     // Course Number
     .form-group
       label(for='courseNumber') Course Number
-      select#courseNumber(name='courseNumber' required='')
+      select#courseNumber(name='coursenumber' required='')
         option(value='') Select course number
         option(value='188') 188
         option(value='189') 189
     .centered-btn
       button.CookBtn(type='submit') Submit
-script(src='path/to/your/javascript/script.js')
 p
 footer
   | &copy; 2023 Herrods Munchies. All rights reserved.
