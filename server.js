@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //DB shit
 const RecipesData = [];
 const IngData = [];
+const CSVUserData = [];
 
 fs.createReadStream('DB/Recipes.csv')
   .pipe(csv())
@@ -22,8 +23,7 @@ fs.createReadStream('DB/Recipes.csv')
     RecipesData.push(row);
   })
   .on('end', () => {
-    console.log('CSV file successfully processed.');
-    // Continue with rendering the Pug template or processing the data
+    console.log('Recipe CSV file successfully processed.');
   });
 
   fs.createReadStream('DB/Ingredients.csv')
@@ -32,14 +32,21 @@ fs.createReadStream('DB/Recipes.csv')
     IngData.push(row);
   })
   .on('end', () => {
-    console.log('CSV file successfully processed.');
-    // Continue with rendering the Pug template or processing the data
+    console.log('Ing CSV file successfully processed.');
+  });
+
+  fs.createReadStream('DB/Users.csv')
+  .pipe(csv())
+  .on('data', (row) => {
+    IngData.push(row);
+  })
+  .on('end', () => {
+    console.log('Users CSV file successfully processed.');
   });
 
   app.get('/test', (req, res) => {
     res.render('DBING', { IngData });
   });
-
 
 
 //PUG
@@ -84,10 +91,23 @@ CRUD.CreateUserTable(null, {
   }
 });
 
-// Handle form submission and redirect to '/ingredients'
-app.get('/NewSignUp', (req, res) => {
-  console.log(req.body)
-  CRUD.InsertNewUser(req.body, {
+//CRUD.InsertCSVUsers(null, {
+//  render: function (view, data) {
+//    console.log(data.v1); // Log the result
+//  },
+//  status: function (statusCode) {
+    // Handle status if needed
+//  }
+//});
+
+app.post('/NewSignUp',CRUD.InsertNewUser2);
+app.get('/ALL',CRUD.SelectAllUsers);
+app.get('/DeleteAll', CRUD.DeleteAllUsers);
+
+
+// OLD DOESNT WORK
+app.post('/OLDSIGNUPNOTGOOD', (req, res) => {
+  CRUD.InsertNewUser(req.query, {
     send: function (response) {
       res.render('Ingredients', { IngData });
     },

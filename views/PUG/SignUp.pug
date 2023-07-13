@@ -17,31 +17,31 @@ p
   #logo-container
     img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
   h2 Sign Up
-  form(action='/NewSignUp' method='GET' onsubmit='return validateForm()')
+  form(action='/NewSignUp' method='POST' onsubmit='return validateForm()')
     // Full Name
     .form-group
-      label(for='fullname') Full Name
-      input#fullName(type='text' pattern='[A-Za-z]+ [A-Za-z]+' oninvalid="this.setCustomValidity('Please enter a valid full name.')" oninput="this.setCustomValidity('')" name='fullname' required='')
+      label(for='FullName') Full Name
+      input#fullName(type='text' name='FullName' pattern='[A-Za-z]+ [A-Za-z]+' oninvalid="this.setCustomValidity('Please enter a valid full name.')" oninput="this.setCustomValidity('')" required='')
     // ID Number
     .form-group
-      label(for='idNumber') ID Number
-      input#idNumber(type='text' name='idnumber' pattern='[0-9]{9}' required='' oninvalid="this.setCustomValidity('Please enter a 9-digit number.')" oninput="this.setCustomValidity('')")
+      label(for='ID') ID Number
+      input#idNumber(type='text' name='ID' pattern='[0-9]{9}' required='' oninvalid="this.setCustomValidity('Please enter a 9-digit number.')" oninput="this.setCustomValidity('')")
     // Username
     .form-group
-      label(for='username') Username
-      input#username(type='text' name='username' required='')
+      label(for='UserName') Username
+      input#username(type='text' name='UserName' required='')
     // Password
     .form-group
-      label(for='password') Password
-      input#password(type='password' name='password' required='')
+      label(for='Password') Password
+      input#password(type='password' name='Password' required='')
     // email
     .form-group
-      label(for='email') Email
-      input#email(type='email' name='email' required='')
+      label(for='Email') Email
+      input#email(type='email' name='Email' required='')
     // Course Number
     .form-group
-      label(for='courseNumber') Course Number
-      select#courseNumber(name='coursenumber' required='')
+      label(for='CourseNumber') Course Number
+      select#courseNumber(name='CourseNumber' required='')
         option(value='') Select course number
         option(value='188') 188
         option(value='189') 189
