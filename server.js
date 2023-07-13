@@ -103,6 +103,11 @@ app.get('/About', (req, res) => {
 
 //Sign In Route - GET
 app.get('/SignIn', (req, res) => {
+  let userExists = false;
+
+
+
+
   res.sendFile(path.join(__dirname, 'views/html', 'SignIn.html'));
 });
 //Sign In Route - POST
