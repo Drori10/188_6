@@ -20,9 +20,10 @@ main
     #logo-container
       img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
     h2 Meals you can cook
+    br
         table
           each row in RecipesData
-            tr.Rcontainer
+            tr.container
               td.RtdImg 
                 img(src='/Meals/' + row.Picture, alt=row.Name, height="200px", width="200px")
               td.RtdName= row.Name
