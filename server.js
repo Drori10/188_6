@@ -91,11 +91,10 @@ app.post('/checkLogin', (req, res) => {
   CRUD.loginCheck(req, res);
 });
 
-
 app.post('/MyIng', (req, res) => {
   // Retrieve the form data from the request body
   const formValues = req.body;
-  
+  CRUD.DeleteUserING(req, res);
   // Pass the form data to your CRUD function
   CRUD.InsertToUsersING(formValues, (err, result) => {
     if (err) {

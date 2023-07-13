@@ -131,8 +131,6 @@ const CreateUserINGTable = (req, res) => {
     });
   };
 
-
-
   const InsertToUsersING = (formData, callback) => {
     const values = Object.keys(formData)
       .filter(key => key.startsWith('Row') && formData[key] === 'on')
@@ -149,6 +147,19 @@ const CreateUserINGTable = (req, res) => {
       return callback(null, result);
     });
   };
+ 
+  const DeleteUserING = (req, res) => {
+    const Q3 = 'DELETE FROM USR_ING;';
+    SQL.query(Q3, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        //res.send(mysqlres);
+        console.log("USR_ING Deleted");
+        return;
+    })
+};
   
   const SeeUsrIng = (req, res) => {
     const Q = 'select * from USR_ING';
@@ -188,4 +199,4 @@ const loginCheck = (req, res) => {
             });
           };
 
-module.exports = {loginCheck, DeleteAllUsers, InsertNewUser2, CreateUserTable, SelectAllUsers, InsertCSVUsers, CreateUserINGTable, InsertToUsersING, SeeUsrIng }
+module.exports = {DeleteUserING, loginCheck, DeleteAllUsers, InsertNewUser2, CreateUserTable, SelectAllUsers, InsertCSVUsers, CreateUserINGTable, InsertToUsersING, SeeUsrIng }
