@@ -150,7 +150,6 @@ const CreateUserINGTable = (req, res) => {
     });
   };
   
-
   const SeeUsrIng = (req, res) => {
     const Q = 'select * from USR_ING';
     SQL.query(Q, (err, mysqlres) => {
@@ -166,4 +165,27 @@ const CreateUserINGTable = (req, res) => {
     })
 };
 
-module.exports = {DeleteAllUsers, InsertNewUser2, CreateUserTable, SelectAllUsers, InsertCSVUsers, CreateUserINGTable, InsertToUsersING, SeeUsrIng }
+const loginCheck = (req, res) => {
+            const username = req.body.UserName;
+            const password = req.body.Password;
+            console.log("username"+username +"pass"+ password) 
+          
+            const checkQuery = 'SELECT * FROM USERS WHERE UserName = ? AND Password = ?';
+            SQL.query(checkQuery, [username, password], (err, result) => {
+              if (err) {
+                console.error('Error checking login credentials:', err);
+                res.status(500).send('Something went wrong');
+                return;
+              }
+          
+              if (result.length > 0) {
+                res.cookie('UserName', username);
+                res.redirect('/PIngredients');
+            } else {
+                      //Display an alert pop-up message and redirect back to /login
+                      res.send("<script>alert('Incorrect Username or password'); window.location.href = '/PSignIn';</script>");
+              }
+            });
+          };
+
+module.exports = {loginCheck, DeleteAllUsers, InsertNewUser2, CreateUserTable, SelectAllUsers, InsertCSVUsers, CreateUserINGTable, InsertToUsersING, SeeUsrIng }

@@ -84,6 +84,14 @@ app.post('/PRecipes', (req, res) => {
   res.render('Recipes', { RecipesData });
 });
 
+app.get('/checkLogin', (req, res) => {
+  CRUD.loginCheck(req, res);
+});
+app.post('/checkLogin', (req, res) => {
+  CRUD.loginCheck(req, res);
+});
+
+
 app.post('/MyIng', (req, res) => {
   // Retrieve the form data from the request body
   const formValues = req.body;
