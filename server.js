@@ -16,6 +16,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const RecipesData = [];
 const IngData = [];
 const CSVUserData = [];
+const IngRecipesData = [];
+
+fs.createReadStream('DB/IngRecipesData.csv')
+  .pipe(csv())
+  .on('data', (row) => {
+    IngRecipesData.push(row);
+  })
+  .on('end', () => {
+    console.log('Recipe CSV file successfully processed.');
+  });
 
 fs.createReadStream('DB/Recipes.csv')
   .pipe(csv())
@@ -44,9 +54,6 @@ fs.createReadStream('DB/Recipes.csv')
     console.log('Users CSV file successfully processed.');
   });
 
-  app.get('/test', (req, res) => {
-    res.render('DBING', { IngData });
-  });
 
 
 //PUG
@@ -77,6 +84,22 @@ app.post('/PRecipes', (req, res) => {
   res.render('Recipes', { RecipesData });
 });
 
+app.post('/MyIng', (req, res) => {
+  // Retrieve the form data from the request body
+  const formValues = req.body;
+  
+  // Pass the form data to your CRUD function
+  CRUD.InsertToUsersING(formValues, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('Error occurred');
+      return;
+    }
+    
+    // Handle the result or send a response back to the client
+    res.send('Form submitted successfully');
+  });
+});
 
 // Set up routes
 
@@ -91,9 +114,16 @@ CRUD.CreateUserTable(null, {
   }
 });
 
+CRUD.CreateUserINGTable((err, data) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(data); // Log the result
+});
+
 CRUD.InsertCSVUsers(null, {
   render: function (view, data) {
-    console.log(data.v1); // Log the result
   },
   status: function (statusCode) {
     // Handle status if needed
@@ -103,7 +133,7 @@ CRUD.InsertCSVUsers(null, {
 app.post('/NewSignUp',CRUD.InsertNewUser2);
 app.get('/ALL',CRUD.SelectAllUsers);
 app.get('/DeleteAll', CRUD.DeleteAllUsers);
-
+app.get('/See', CRUD.SeeUsrIng)
 
 // OLD DOESNT WORK
 app.post('/OLDSIGNUPNOTGOOD', (req, res) => {
@@ -132,10 +162,6 @@ app.get('/About', (req, res) => {
 //Sign In Route - GET
 app.get('/SignIn', (req, res) => {
   let userExists = false;
-
-
-
-
   res.sendFile(path.join(__dirname, 'views/html', 'SignIn.html'));
 });
 //Sign In Route - POST

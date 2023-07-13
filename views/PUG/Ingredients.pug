@@ -19,17 +19,17 @@ main
   .container
     #logo-container
       img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
-    h2 Meals you can cook
+    h2 Select the ingredients that you have:
     br
-    form#ingredients-form(action='/PRecipes' method='post')
+    form#ingredients-form(action='/MyIng' method='post')
       table
-        each row in IngData
+        each row, index in IngData
           tr.container
-              td.ItdImg 
-                  img(src='/IMG/Ing/' + row.Picture, alt=row.Name, height="200px", width="200px")
-              td.ItdName= row.Name
-              td.checkbox-td
-                  input.checkmark(type='checkbox')
+            td.ItdImg
+              img(src='/IMG/Ing/' + row.Picture, alt=row.Name, height='200px', width='200px')
+            td.ItdName= row.Name
+            td.checkbox-td
+              input.checkmark(type='checkbox' id=`Row${index + 1}` name=`Row${index + 1}`)
       br
       button.CookBtn(type='submit') Let&apos;s Cook!
   

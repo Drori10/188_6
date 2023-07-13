@@ -15,15 +15,12 @@ const CreateUserTable = (req, res) => {
         CourseNumber varchar(3) NOT NULL\
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
     SQL.query(Q1, (err, mysqlres) => {
-        //console.log("in query");
         if (err) {
             console.log(err);
-            //res.status(400).send(err);
-            res.status(400).render('home', { v1: err })
+            res.status(400).send(err);
             return;
         }
-        //res.send("hi - table created");
-        res.render('home', { v1: "Table created" });
+        console.log("Users Table Created");
         return;
     })
 };
@@ -32,7 +29,6 @@ const CreateUserTable = (req, res) => {
 const InsertCSVUsers = (req, res) => {
     const csvPath = path.join(__dirname, "Users.csv");
     csvtojson().fromFile(csvPath).then((jsonObj) => {
-        console.log(jsonObj);
         for (let i = 0; i < jsonObj.length; i++) {
             const element = jsonObj[i];
             console.log(element);
@@ -124,4 +120,50 @@ const DeleteAllUsers = (req, res) => {
     })
 };
 
-module.exports = {DeleteAllUsers, InsertNewUser2, CreateUserTable, SelectAllUsers, InsertCSVUsers }
+const CreateUserINGTable = (req, res) => {
+    const Q1 = 'CREATE TABLE IF NOT EXISTS USR_ING (IngID int NOT NULL)';
+    SQL.query(Q1, (err, mysqlres) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log("USR_ING Table Created");
+    });
+  };
+
+
+
+  const InsertToUsersING = (formData, callback) => {
+    const values = Object.keys(formData)
+      .filter(key => key.startsWith('Row') && formData[key] === 'on')
+      .map(key => [parseInt(key.replace('Row', ''), 10)]);
+    
+    const Q1 = 'INSERT INTO USR_ING (IngID) VALUES ?';
+    SQL.query(Q1, [values], (err, result) => {
+      if (err) {
+        console.log(err);
+        return callback(err);
+      }
+      
+      // Provide any necessary data or success indicators in the callback
+      return callback(null, result);
+    });
+  };
+  
+
+  const SeeUsrIng = (req, res) => {
+    const Q = 'select * from USR_ING';
+    SQL.query(Q, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send("cannot find USR_ING");
+            return;
+        }
+        //res.send(mysqlres);
+        res.send(mysqlres);
+        console.log("found USR_ING");
+        return;
+    })
+};
+
+module.exports = {DeleteAllUsers, InsertNewUser2, CreateUserTable, SelectAllUsers, InsertCSVUsers, CreateUserINGTable, InsertToUsersING, SeeUsrIng }
