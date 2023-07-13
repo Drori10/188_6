@@ -74,6 +74,15 @@ app.post('/Ingredients', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'Ingredients.html'));
 });
 
+// Ingredients Route - GET
+app.get('/DB', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'DBIngredients.html'));
+});
+// Ingrediients Route - POST
+app.post('/DB', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'DBIngredients.html'));
+});
+
 //Recipe Route - GET
 app.get('/Recipes', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'Recipes.html'));
@@ -89,7 +98,7 @@ app.get('/Back', (req, res) => {
 });
 
 // Start the server
-app.listen(2023, () => {
+app.listen(3000, () => {
   console.log('Server is running on http://localhost:2023');
 });
 
