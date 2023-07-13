@@ -91,14 +91,14 @@ CRUD.CreateUserTable(null, {
   }
 });
 
-//CRUD.InsertCSVUsers(null, {
-//  render: function (view, data) {
-//    console.log(data.v1); // Log the result
-//  },
-//  status: function (statusCode) {
+CRUD.InsertCSVUsers(null, {
+  render: function (view, data) {
+    console.log(data.v1); // Log the result
+  },
+  status: function (statusCode) {
     // Handle status if needed
-//  }
-//});
+  }
+});
 
 app.post('/NewSignUp',CRUD.InsertNewUser2);
 app.get('/ALL',CRUD.SelectAllUsers);

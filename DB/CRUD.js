@@ -44,7 +44,7 @@ const InsertCSVUsers = (req, res) => {
                 Password: element.Password,
                 CourseNumber: element.CourseNumber
             };
-            const Q1 = "insert into Users set ?";
+            const Q1 = "INSERT IGNORE INTO Users SET ?";
             SQL.query(Q1, NewCsvData, (err, mysqlres) => {
                 if (err) {
                     throw err
