@@ -1,0 +1,70 @@
+doctype html
+head
+  title Herrods Munchies - Recipes
+  link(rel='stylesheet' href='styles.css')
+  script(src='nightmode.js')
+nav.animated.fade-in
+  ul
+    li
+      a(href='/PAbout') About Us
+    li
+    li
+      a(href='/PIngredients') Edit Ingredients
+  ul.navbar-right
+    li
+      button(onclick='toggleNightMode()') Toggle Night Mode
+    li
+      a(href='/PSignIn') Log Out
+main
+  .container
+    #logo-container
+      img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
+    h2 Meals you can cook
+    table
+      tr
+        td(style='width: 40%;')
+          img(src='/Meals/Toast.jpg' alt='Toast' height='200px' width='200px')
+        td(style='width: 20%;')
+          label.IMG-label Toast
+        td(style='width: 40%;')
+          | Ingredients Needed:
+          ul
+            li Bread
+            li Cheese
+      tr
+        td
+          img(src='/Meals/FrenchT.jpg' alt='French Toast' height='200px' width='200px')
+        td
+          label.IMG-label French Toast
+        td
+          | Ingredients Needed:
+          ul
+            li Bread
+            li Milk
+            li Eggs
+      tr
+        td
+          img(src='/Meals/CreamPasta.jpg' alt='Creamy Pasta' height='200px' width='200px')
+        td
+          label.IMG-label Creamy Pasta
+        td
+          | Ingredients Needed:
+          ul
+            li Pasta
+            li Cream
+      tr
+        td
+          img(src='/Meals/EggsOnToast.jpg' alt='Eggs on Toast' height='200px' width='200px')
+        td
+          label.IMG-label Eggs on Toast
+        td
+          | Ingredients Needed:
+          ul
+            li Eggs
+            li Bread
+    // Suggestions and other content will be displayed dynamically
+footer
+  // Footer content goes here
+// script src="script.js"></script
+footer
+  | &copy; 2023 Herrods Munchies. All rights reserved.

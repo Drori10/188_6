@@ -1,0 +1,74 @@
+doctype html
+head
+  title Herrods Munchies - Ingredients
+  link(rel='stylesheet' href='styles.css')
+  script(src='nightmode.js')
+nav.animated.fade-in
+  ul
+    li
+      a(href='/PAbout') About Us
+    li
+    li
+      a(href='/PRecipes') All Recipes
+  ul.navbar-right
+    li
+      button(onclick='toggleNightMode()') Toggle Night Mode
+    li
+      a(href='/PSignIn') Log Out
+main
+  .container
+    form#ingredients-form(action='/PRecipes' method='post')
+      #logo-container
+        img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
+      h2(style='text-align: center;') Enter the ingredients you have below:
+      table
+        tr
+          td(style='width: 50%;')
+            img(src='/IMG/Pasta.jpg' alt='Pasta' height='200px' width='200px')
+          td
+            label.IMG-label Pasta
+          td.checkbox-td
+            input.checkmark(type='checkbox')
+        tr
+          td(style='width: 50%;')
+            img(src='/IMG/Eggs.jpg' alt='Eggs' height='200px' width='200px')
+          td
+            label.IMG-label Eggs
+          td.checkbox-td
+            input.checkmark(type='checkbox')
+        tr
+          td(style='width: 50%;')
+            img(src='/IMG/Bread.jpg' alt='Bread' height='200px' width='200px')
+          td
+            label.IMG-label Bread
+          td.checkbox-td
+            input.checkmark(type='checkbox')
+        tr
+          td(style='width: 50%;')
+            img(src='/IMG/Cheese.jpg' alt='Cheese' height='200px' width='200px')
+          td
+            label.IMG-label Cheese
+          td.checkbox-td
+            input.checkmark(type='checkbox')
+        tr
+          td(style='width: 50%;')
+            img(src='/IMG/Cream.jpg' alt='Cream' height='200px' width='200px')
+          td
+            label.IMG-label Cream
+          td.checkbox-td
+            input.checkmark(type='checkbox')
+        tr
+          td(style='width: 50%;')
+            img(src='/IMG/Milk.jpg' alt='Milk' height='200px' width='170px')
+          td
+            label.IMG-label Milk
+          td.checkbox-td
+            input.checkmark(type='checkbox')
+      .centered-btn
+        button.CookBtn(type='submit') Let&apos;s Cook!
+    // Suggestions and other content will be displayed dynamically
+footer
+  // Footer content goes here
+// script src="script.js"></script
+footer
+  | &copy; 2023 Herrods Munchies. All rights reserved.

@@ -11,6 +11,35 @@ app.use(express.static('static'));
 // Parse URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//PUG
+app.set('view engine', 'pug');
+app.set('views', './views/PUG');
+app.get('/PAbout', (req, res) => {
+  res.render('About');
+});
+app.get('/PSignIn', (req, res) => {
+  res.render('SignIn');
+});
+app.get('/PSignUp', (req, res) => {
+  res.render('SignUp');
+});
+app.post('/PSignUp', (req, res) => {
+  res.render('SignUp');
+});
+app.get('/PIngredients', (req, res) => {
+  res.render('Ingredients');
+});
+app.post('/PIngredients', (req, res) => {
+  res.render('Ingredients');
+});
+app.get('/PRecipes', (req, res) => {
+  res.render('Recipes');
+});
+app.post('/PRecipes', (req, res) => {
+  res.render('Recipes');
+});
+
+
 // Set up routes
 
 //*********DB
@@ -39,57 +68,48 @@ app.get('/selectAll', CRUD.SelectAllUsers)
 
 // Start page route
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'SignIn.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'SignIn.html'));
 });
 
 // Home page route
 app.get('/About', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'About.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'About.html'));
 });
 
 //Sign In Route - GET
 app.get('/SignIn', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'SignIn.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'SignIn.html'));
 });
 //Sign In Route - POST
 app.post('/SignIn', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'SignIn.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'SignIn.html'));
 });
 
 //Sign Up Route - GET
 app.get('/SignUp', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'SignUp.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'SignUp.html'));
 });
 //Sign Up Route - POST
 app.post('/SignUp', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'SignUp.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'SignUp.html'));
 });
 
 // Ingredients Route - GET
 app.get('/Ingredients', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'Ingredients.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'Ingredients.html'));
 });
 // Ingrediients Route - POST
 app.post('/Ingredients', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'Ingredients.html'));
-});
-
-// Ingredients Route - GET
-app.get('/DB', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'DBIngredients.html'));
-});
-// Ingrediients Route - POST
-app.post('/DB', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'DBIngredients.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'Ingredients.html'));
 });
 
 //Recipe Route - GET
 app.get('/Recipes', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'Recipes.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'Recipes.html'));
 });
 //Recipe Route - POST
 app.post('/Recipes', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'Recipes.html'));
+  res.sendFile(path.join(__dirname, 'views/html', 'Recipes.html'));
 });
 
 //Back Route
@@ -99,7 +119,7 @@ app.get('/Back', (req, res) => {
 
 // Start the server
 app.listen(3000, () => {
-  console.log('Server is running on http://localhost:2023');
+  console.log('Server is running on http://localhost:3000');
 });
 
 

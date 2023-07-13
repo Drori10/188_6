@@ -1,0 +1,41 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  link(rel='stylesheet' href='styles.css')
+  // Link to your CSS file
+  title Herrods Munchies - Sign In
+  script(src='nightmode.js')
+// Navigation links to other pages
+nav
+  ul
+    li
+      a(href='/PAbout') About Us
+  ul.navbar-right
+    li
+      button(onclick='toggleNightMode()') Toggle Night Mode
+p
+section.main-content
+  .container
+    // home.html
+    form(action='/PIngredients' method='post')
+      #logo-container
+        img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
+      h2 Login
+      .form-group
+        label(for='username') Username
+        input#username(type='text' name='username' required='')
+      .form-group
+        label(for='password') Password
+        input#password(type='password' name='password' required='')
+      .centered-btn
+        button.CookBtn(type='submit') Login
+    p
+      | Don&apos;t have an account? 
+      form(action='/PSignUp' method='post')
+        .centered-btn
+          button.CookBtn(type='submit') Sign-Up
+script(src='script.js')
+// Link to your JavaScript file
+footer
+  | &copy; 2023 Herrods Munchies. All rights reserved.
