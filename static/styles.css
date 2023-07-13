@@ -246,15 +246,7 @@ body {
   background-color: #f2f2f2;
 }
 
-.container {
-  /*Sign-In , Sign-Up Pages*/
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+
 
 .night-mode .container {
   /*Sign-In , Sign-Up Pages*/
@@ -449,3 +441,31 @@ table {
   text-align: center;
   font-size: 150%;
 }
+
+.RtdImg{
+  width: 15%;
+}
+
+.RtdName{
+  width: 100%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+  font-size: 125%;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  padding-top: 40px;
+}
+
+.RtdInst{
+  width: 100%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+  font-size: 75%;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  padding-top: 25px;
+}
+
+

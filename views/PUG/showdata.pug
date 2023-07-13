@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Data from CSV File
+    link(rel="stylesheet", href="styles.css")
+  body
+    main
+      .container
+        h2 Data from CSV File
+        table
+          each row in RecipesData
+            tr
+              td= row.Name
+              td= row.Ingredients
+              td= row.Instructions
+              td
+                img(src='/Meals/' + row.Picture, alt=row.Name, height="200px", width="200px")
+

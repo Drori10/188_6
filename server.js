@@ -5,11 +5,36 @@ const CRUD = require('./DB/CRUD');
 const { DB } = require('./DB/DB.config');
 const app = express();
 
+const csv = require('csv-parser');
+const fs = require('fs');
+
 // Serve static files from the "static" directory
 app.use(express.static('static'));
 
 // Parse URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//DB shit
+const RecipesData = [];
+
+fs.createReadStream('DB/Recipes.csv')
+  .pipe(csv())
+  .on('data', (row) => {
+    RecipesData.push(row);
+  })
+  .on('end', () => {
+    console.log('CSV file successfully processed.');
+    // Continue with rendering the Pug template or processing the data
+  });
+
+  app.get('/showdata', (req, res) => {
+    res.render('showdata', { RecipesData });
+  });
+  app.get('/test', (req, res) => {
+    res.render('RTemplate', { RecipesData });
+  });
+
+
 
 //PUG
 app.set('view engine', 'pug');
