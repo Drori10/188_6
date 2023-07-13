@@ -1,7 +1,7 @@
 doctype html
 head
   title Herrods Munchies - Recipes
-  link(rel='stylesheet' href='styles.css')
+  link(rel='stylesheet', href='styles.css')
   script(src='nightmode.js')
 nav.animated.fade-in
   ul
@@ -18,24 +18,24 @@ nav.animated.fade-in
 main
   .container
     #logo-container
-      img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
+      img#logo(src='/IMG/racoon.png', alt='Logo', height='175px', width='175px')
     h2 Select the ingredients that you have:
     br
-    form#ingredients-form(action='/MyIng' method='post')
+    form#ingredients-form(action='/MyIng', method='post')
       table
         each row, index in IngData
           tr.container
             td.ItdImg
-              img(src='/IMG/Ing/' + row.Picture, alt=row.Name, height='200px', width='200px')
+              img(src=`/IMG/Ing/${row.Picture}`, alt=row.Name, height='200px', width='200px')
             td.ItdName= row.Name
             td.checkbox-td
-              input.checkmark(type='checkbox' id=`Row${index + 1}` name=`Row${index + 1}`)
+              input.checkmark(type='checkbox', id=`Row${index + 1}`, name=`Row${index + 1}`)
+
       br
-      button.CookBtn(type='submit') Let&apos;s Cook!
-  
+      button.CookBtn(type='submit') Let's Cook!
 
 footer
   // Footer content goes here
-// script src="script.js"></script
-footer
-  | &copy; 2023 Herrods Munchies. All rights reserved.
+  // script(src='script.js')
+  footer
+    | &copy; 2023 Herrods Munchies. All rights reserved.

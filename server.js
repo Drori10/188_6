@@ -37,7 +37,7 @@ fs.createReadStream('DB/Recipes.csv')
   });
 
   fs.createReadStream('DB/Ingredients.csv')
-  .pipe(csv())
+  .pipe(csv({ trim: true })) // Use trim option to trim whitespace characters
   .on('data', (row) => {
     IngData.push(row);
   })
