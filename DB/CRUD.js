@@ -8,10 +8,10 @@ const { constrainedMemory } = require('process');
 
 const CreateUserTable = (req, res) => {
     const Q1 = 'CREATE TABLE IF NOT EXISTS `USERS` (\
-        ID int(9) NOT NULL PRIMARY KEY AUTO_INCREMENT,\
+        ID int(9) NOT NULL,\
         Email varchar(50) NOT NULL,\
         FullName varchar(50) NOT NULL,\
-        UserName varchar(50) NOT NULL,\
+        UserName varchar(50) PRIMARY KEY NOT NULL,\
         Password varchar(50) NOT NULL,\
         CourseNumber varchar(3) NOT NULL\
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
