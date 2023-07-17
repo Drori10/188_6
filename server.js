@@ -88,11 +88,23 @@ CRUD.InsertCSVRecipes(null, {
   }
 });
 
-CRUD.CreateRecipesIngredientsTable((err, data) => {
+CRUD.CreateRecipesIngredientsTable1((err, data) => {
   if (err) {
     console.log(err);
     return;
   }
+  CRUD.CreateRecipesIngredientsTable2((err2, data2) => {
+    if (err2) {
+      console.log(err2);
+      return;
+    }
+    CRUD.CreateRecipesIngredientsTable3((err3, data3) => {
+      if (err3) {
+        console.log(err3);
+        return;
+      }
+    });
+  });
 });
 
 CRUD.InsertCSVRecipesIngredients(null, {
@@ -107,6 +119,7 @@ app.post('/NewSignUp',CRUD.InsertNewUser2);
 app.get('/ALL',CRUD.SelectAllUsers);
 app.get('/DeleteAll', CRUD.DeleteAllUsers);
 app.get('/DeleteDeleteDelete', CRUD.DELETEEVERYTHING);
+
 
 //PUG
 app.get('/', (req, res) => {

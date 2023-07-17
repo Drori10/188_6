@@ -228,35 +228,43 @@ const DeleteRecipes = (req, res) => {
 
 //*********** Recipes - Ingredient table - which recipes require which ingredients
 //Create table
-const CreateRecipesIngredientsTable = (req, res) => {
+const CreateRecipesIngredientsTable1 = (req, res) => {
     const Q1 = `CREATE TABLE IF NOT EXISTS REC_ING (
       R_ID int(1) NOT NULL,
       I_ID int(1) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8`;
-    const Q3 = 'ALTER TABLE `REC_ING` DROP PRIMARY KEY';
-    const Q2 = 'ALTER TABLE `REC_ING` ADD PRIMARY KEY (R_ID, I_ID)';
-  
     SQL.query(Q1, (err, mysqlres) => {
       if (err) {
         console.log(err);
         return;
       }
-  
-      SQL.query(Q3, (err, mysqlres2) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-  
-        SQL.query(Q2, (err, mysqlres3) => {
-          if (err) {
-            console.log(err);
-            return;
-          }
-        });
-      });
     });
   };
+
+  const CreateRecipesIngredientsTable2 = (req, res) => {
+    const Q2 = 'ALTER TABLE `REC_ING` DROP PRIMARY KEY';
+    const Q2222 = 'ALTER TABLE `REC_ING` ADD PRIMARY KEY (R_ID, I_ID)';
+  
+    SQL.query(Q2, (err, mysqlres) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+    })
+  };
+
+  const CreateRecipesIngredientsTable3 = (req, res) => {
+    const Q3 = 'ALTER TABLE `REC_ING` ADD PRIMARY KEY (R_ID, I_ID)';
+  
+    SQL.query(Q3, (err, mysqlres) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+    })
+  };
+
+
 
 // Insert into table from CSV excel data
 const InsertCSVRecipesIngredients = (req, res) => {
@@ -445,8 +453,9 @@ module.exports = {
     CreateUserTable, InsertCSVUsers, DeleteAllUsers, SelectAllUsers, //User Table Cruds
     loginCheck, InsertNewUser2,                                      // Login / Signup Cruds
     CreateRecipesTable, InsertCSVRecipes, SeeRec, DeleteRecipes,    // Recipe (excel data) Cruds 
-    CreateRecipesIngredientsTable, InsertCSVRecipesIngredients, SeeRecIng, //Recipe-ingredient table
+    CreateRecipesIngredientsTable1, InsertCSVRecipesIngredients, SeeRecIng, //Recipe-ingredient table
     CreateUserINGTable, DeleteUserING, InsertToUsersING, SeeUsrIng,  // Users Ingredients table
     FindUsrRecipes, SelectUSRRec,                                    // Users Available recipes table
-    DELETEEVERYTHING
+    DELETEEVERYTHING,
+    CreateRecipesIngredientsTable2, CreateRecipesIngredientsTable3
  }
