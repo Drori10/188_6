@@ -5,7 +5,7 @@ const fs = require('fs'); //csv
 const createCsvWriter = require('csv-writer');
 
 
-//********* USERS TABLE CRUDS:
+//*** USERS TABLE CRUDS:
 // Create USERS Table
 const CreateUserTable = (req, res) => {
     const Q1 = 'CREATE TABLE IF NOT EXISTS `USERS` (\
@@ -157,7 +157,7 @@ const loginCheck = (req, res) => {
     });
   };
 
-//********* */ RECIPE TABLE
+//*** */ RECIPE TABLE
 //Create table
 const CreateRecipesTable = (req, res) => {
     const Q1 = 'CREATE TABLE IF NOT EXISTS `RECIPES` (\
@@ -226,7 +226,7 @@ const DeleteRecipes = (req, res) => {
     })
 };
 
-//*********** Recipes - Ingredient table - which recipes require which ingredients
+//***** Recipes - Ingredient table - which recipes require which ingredients
 //Create table
 const CreateRecipesIngredientsTable1 = (req, res) => {
     const Q1 = `CREATE TABLE IF NOT EXISTS REC_ING (
@@ -301,7 +301,7 @@ const SeeRecIng = (req, res) => {
     })
 };
 
-//******* Users Ingredients table (what ingredients did the user check)
+//*** Users Ingredients table (what ingredients did the user check)
 //Create table
 const CreateUserINGTable = (req, res) => {
     const Q1 = 'CREATE TABLE IF NOT EXISTS USR_ING (IngID int NOT NULL)';
@@ -359,7 +359,7 @@ const SeeUsrIng = (req, res) => {
     })
 };
 
-//******** Users found recipes according to his ingredients
+//**** Users found recipes according to his ingredients
 const FindUsrRecipes = (req, res) => {
     const deleteDataQuery = "DELETE FROM USR_RECIPES WHERE EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'USR_RECIPES')";
     const dropTableQuery = "DROP TABLE IF EXISTS USR_RECIPES";
