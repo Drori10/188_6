@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'pug');
 app.set('views', './views/PUG');
-const port = 3000;
+const port = 3001;
 
 //DB csv arrays
 const RecipesData = [];

@@ -1,7 +1,7 @@
 const SQL = require('./db');
 const path = require('path');
 const csvtojson = require('csvtojson');
-const fs = require('fs'); //csv
+const fs = require('fs'); //needed for csv
 const createCsvWriter = require('csv-writer');
 
 
