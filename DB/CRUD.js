@@ -233,27 +233,25 @@ const CreateRecipesIngredientsTable = (req, res) => {
       R_ID int(1) NOT NULL,
       I_ID int(1) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8`;
-  
     const Q3 = 'ALTER TABLE `REC_ING` DROP PRIMARY KEY';
-  
     const Q2 = 'ALTER TABLE `REC_ING` ADD PRIMARY KEY (R_ID, I_ID)';
   
     SQL.query(Q1, (err, mysqlres) => {
       if (err) {
         console.log(err);
-        return res.status(400).send(err);
+        return;
       }
   
       SQL.query(Q3, (err, mysqlres2) => {
         if (err) {
           console.log(err);
-          return res.status(400).send(err);
+          return;
         }
   
         SQL.query(Q2, (err, mysqlres3) => {
           if (err) {
             console.log(err);
-            return res.status(400).send(err);
+            return;
           }
         });
       });
