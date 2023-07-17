@@ -26,7 +26,6 @@ fs.createReadStream('DB/IngRecipesData.csv')
     IngRecipesData.push(row);
   })
   .on('end', () => {
-    console.log('Ingredient-Recipe CSV file successfully processed.');
   });
 
 fs.createReadStream('DB/Recipes.csv')
@@ -35,7 +34,6 @@ fs.createReadStream('DB/Recipes.csv')
     RecipesData.push(row);
   })
   .on('end', () => {
-    console.log('Recipe CSV file successfully processed.');
   });
 
   fs.createReadStream('DB/Ingredients.csv')
@@ -44,7 +42,6 @@ fs.createReadStream('DB/Recipes.csv')
     IngData.push(row);
   })
   .on('end', () => {
-    console.log('Ing CSV file successfully processed.');
   });
 
   fs.createReadStream('DB/Users.csv')
@@ -53,7 +50,6 @@ fs.createReadStream('DB/Recipes.csv')
     CSVUserData.push(row);
   })
   .on('end', () => {
-    console.log('Users CSV file successfully processed.');
   });
 
 //STARTUP CRUDS

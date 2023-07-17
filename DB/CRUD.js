@@ -21,7 +21,6 @@ const CreateUserTable = (req, res) => {
             console.log(err);
             return;
         }
-        console.log("Users Table Created");
         return;
     })
 };
@@ -45,7 +44,6 @@ const InsertCSVUsers = (req, res) => {
                 if (err) {
                     throw err
                 }
-                console.log("csv data inserted to users table")
             });
         }
     });
@@ -140,7 +138,6 @@ const DeleteAllUsers = (req, res) => {
 const loginCheck = (req, res) => {
     const username = req.body.UserName;
     const password = req.body.Password;
-    console.log("username"+username +"pass"+ password) 
   
     const checkQuery = 'SELECT * FROM USERS WHERE UserName = ? AND Password = ?';
     SQL.query(checkQuery, [username, password], (err, result) => {
@@ -175,7 +172,6 @@ const CreateRecipesTable = (req, res) => {
             res.send(err);
             return;
         }
-        console.log("Recipes Table Created");
         return;
     })
 };
@@ -186,7 +182,6 @@ const InsertCSVRecipes = (req, res) => {
     csvtojson().fromFile(csvPath).then((jsonObj) => {
         for (let i = 0; i < jsonObj.length; i++) {
             const element = jsonObj[i];
-            console.log(element);
             const NewCsvData = {
                 ID: element.RecipeID,
                 Name: element.Name,
@@ -260,8 +255,6 @@ const CreateRecipesIngredientsTable = (req, res) => {
             console.log(err);
             return res.status(400).send(err);
           }
-  
-          console.log("Primary key added to REC_ING table");
         });
       });
     });
@@ -273,7 +266,6 @@ const InsertCSVRecipesIngredients = (req, res) => {
     csvtojson().fromFile(csvPath).then((jsonObj) => {
         for (let i = 0; i < jsonObj.length; i++) {
             const element = jsonObj[i];
-            console.log(element);
             const NewCsvData = {
                 R_ID: element.RecipeID,
                 I_ID: element.IngredientID
@@ -312,7 +304,6 @@ const CreateUserINGTable = (req, res) => {
         console.log(err);
         return;
       }
-      console.log("USR_ING Table Created");
     });
   };
 
@@ -382,7 +373,7 @@ const FindUsrRecipes = (req, res) => {
             console.error("Error deleting data from USR_RECIPES table:", error);
             return;
         }
-        console.log("********* USR_RECIPES deleted if exists")
+        console.log("USR_RECIPES deleted if exists")
         //Drop table if exists in order to create new one for new user
         SQL.query(dropTableQuery, (error, result) => {
             if (error) {

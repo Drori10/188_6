@@ -18,7 +18,7 @@ nav.animated.fade-in
 main
   .container
     #logo-container
-      img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
+      img#logo(src='/IMG/RacoonLogo.png' alt='Logo' height='175px' width='175px')
     h2 Meals you can cook
     br
     table
@@ -27,11 +27,6 @@ main
           td.RtdImg 
              img(src='/IMG/Recipes/' + element.Picture, alt=element.Name, height="200px", width="200px")
           td.RtdName= element.Name
-          td.RtdInst= element.Instructions
-          //td.RtdIng= row.Ingredients
-             
-footer
-  // Footer content goes here
-// script src="script.js"></script
+          td.RtdInst= element.Instructions             
 footer
   | &copy; 2023 Herrods Munchies. All rights reserved.
