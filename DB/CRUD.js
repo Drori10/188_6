@@ -4,6 +4,7 @@ const csvtojson = require('csvtojson');
 const fs = require('fs'); //csv
 const createCsvWriter = require('csv-writer');
 const csv = require('csv-parser');
+const { constrainedMemory } = require('process');
 
 const CreateUserTable = (req, res) => {
     const Q1 = 'CREATE TABLE IF NOT EXISTS `USERS` (\
@@ -198,21 +199,26 @@ const loginCheck = (req, res) => {
             });
           };
 
-const CreateRecipesIngredientsTable = (req, res) => {
-    const Q1 = 'CREATE TABLE IF NOT EXISTS `REC_ING` (\
-        R_ID int(1) NOT NULL PRIMARY KEY,\
-        I_ID int(1) NOT NULL\
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
-    SQL.query(Q1, (err, mysqlres) => {
-        if (err) {
-            console.log(err);
-            res.status(400).send(err);
-            return;
-        }
-        console.log("Recipes-Ingredients Table Created");
-        return;
-    })
-};
+          const CreateRecipesIngredientsTable = (req, res) => {
+            const Q1 = `CREATE TABLE IF NOT EXISTS \`REC_ING\` (
+              R_ID int(1) NOT NULL,
+              I_ID int(1) NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8`;
+            const Q2 = 'ALTER TABLE `REC_ING` ADD PRIMARY KEY (R_ID, I_ID)';
+            SQL.query(Q1, (err, mysqlres) => {
+              if (err) {
+                console.log(err);
+                return res.status(400).send(err);
+              }
+          
+              SQL.query(Q2, (err, mysqlres2) => {
+                if (err) {
+                  console.log(err);
+                }
+                console.log("Primary key added to REC_ING table");
+              });
+            });
+          };
 
 const InsertCSVRecipesIngredients = (req, res) => {
     const csvPath = path.join(__dirname, "IngRecipesData.csv");
@@ -229,6 +235,7 @@ const InsertCSVRecipesIngredients = (req, res) => {
                 if (err) {
                     throw err
                 }
+                console.log("********csv rec_ing inserted")
             });
         }
     });
@@ -244,7 +251,7 @@ const CreateRecipesTable = (req, res) => {
     SQL.query(Q1, (err, mysqlres) => {
         if (err) {
             console.log(err);
-            res.status(400).send(err);
+            res.send(err);
             return;
         }
         console.log("Recipes Table Created");
@@ -269,49 +276,74 @@ const InsertCSVRecipes = (req, res) => {
                 if (err) {
                     throw err
                 }
-                console.log("***RECIPES****")
             });
         }
     });
 };
 
-const FindUsrRecipes = (req, res) => {
-    const dropTableQuery = "DROP TABLE IF EXISTS USR_RECIPES";
-    const createTableQuery = "CREATE TABLE USR_RECIPES (ID INT, Name VARCHAR(255), Instructions VARCHAR(255), Picture VARCHAR(255))";
-    const insertDataQuery = "INSERT INTO USR_RECIPES (ID, Name, Instructions, Picture) \
-    SELECT R.ID, R.Name, R.Instructions, R.Picture \
-    FROM RECIPES AS R \
-    JOIN REC_ING AS RI ON R.ID = RI.R_ID \
-    LEFT JOIN USR_ING AS UI ON UI.IngID = RI.I_ID \
-    GROUP BY R.ID, R.Name, R.Instructions, R.Picture \
-    HAVING COUNT(RI.I_ID) = COUNT(UI.IngID)";
-
-    // Execute the SQL query to drop the table if it exists
-    SQL.query(dropTableQuery, (error, result) => {
-        if (error) {
-            console.error("Error dropping USR_RECIPES table:", error);
-            res.status(400).json({ error: "Error dropping USR_RECIPES table" });
+const DeleteRecipes = (req, res) => {
+    const Q3 = 'DELETE FROM RECIPES;';
+    SQL.query(Q3, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
             return;
         }
+        //res.send(mysqlres);
+        console.log("RECIPES Deleted");
+        return;
+    })
+};
 
-        // Execute the SQL query to create an empty table
-        SQL.query(createTableQuery, (error, result) => {
+
+const FindUsrRecipes = (req, res) => {
+    const deleteDataQuery = "DELETE FROM USR_RECIPES WHERE EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'USR_RECIPES')";
+    const dropTableQuery = "DROP TABLE IF EXISTS USR_RECIPES";
+    const createTableQuery = "CREATE TABLE USR_RECIPES (ID INT, Name VARCHAR(255), Instructions VARCHAR(255), Picture VARCHAR(255))";
+    const insertDataQuery = `
+    INSERT INTO USR_RECIPES (ID, Name, Instructions, Picture)
+    SELECT R.ID, R.Name, R.Instructions, R.Picture
+FROM Recipes AS R
+WHERE NOT EXISTS (
+  SELECT RI.I_ID
+  FROM REC_ING AS RI
+  LEFT JOIN USR_ING AS UI ON RI.I_ID = UI.I_ID
+  WHERE RI.R_ID = R.ID AND UI.I_ID IS NULL
+);
+
+    `;
+
+    // Execute the SQL query to delete data from the table
+    SQL.query(deleteDataQuery, (error, result) => {
+        if (error) {
+            console.error("Error deleting data from USR_RECIPES table:", error);
+            res.status(400).json({ error: "Error deleting data from USR_RECIPES table" });
+            return;
+        }
+        console.log("********* USR_RECIPES deleted if exists")
+        // Execute the SQL query to drop the table if it exists
+        SQL.query(dropTableQuery, (error, result) => {
             if (error) {
-                console.error("Error creating USR_RECIPES table:", error);
-                res.status(400).json({ error: "Error creating USR_RECIPES table" });
+                console.error("Error dropping USR_RECIPES table:", error);
+                res.status(400).json({ error: "Error dropping USR_RECIPES table" });
                 return;
             }
-
-            // Execute the SQL query to insert data into the table
-            SQL.query(insertDataQuery, (error, result) => {
+            // Execute the SQL query to create an empty table
+            SQL.query(createTableQuery, (error, result) => {
                 if (error) {
-                    console.error("Error inserting data into USR_RECIPES table:", error);
-                    res.status(400).json({ error: "Error inserting data into USR_RECIPES table" });
+                    console.error("Error creating USR_RECIPES table:", error);
+                    res.status(400).json({ error: "Error creating USR_RECIPES table" });
                     return;
                 }
-
-                console.log("USR_RECIPES table created and data inserted successfully");
-                res.status(200).json({ message: "USR_RECIPES table created and data inserted successfully" });
+                // Execute the SQL query to insert data into the table
+                SQL.query(insertDataQuery, (error, result) => {
+                    if (error) {
+                        console.error("Error inserting data into USR_RECIPES table:", error);
+                        res.status(400).json({ error: "Error inserting data into USR_RECIPES table" });
+                        return;
+                    }
+                    console.log("USR_RECIPES table created and data inserted successfully");
+                    res.status(200).json({ message: "USR_RECIPES table created and data inserted successfully" });
+                });
             });
         });
     });
@@ -366,6 +398,6 @@ module.exports = {
     CreateUserTable, InsertCSVUsers, DeleteAllUsers, InsertNewUser2, SelectAllUsers, 
     CreateUserINGTable, DeleteUserING, InsertToUsersING, SeeUsrIng,
     CreateRecipesIngredientsTable, InsertCSVRecipesIngredients, SeeRecIng,
-    CreateRecipesTable, InsertCSVRecipes, SeeRec,
+    CreateRecipesTable, InsertCSVRecipes, SeeRec, DeleteRecipes,
     FindUsrRecipes, SeeUsrRec
  }

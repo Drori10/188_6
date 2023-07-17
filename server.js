@@ -188,6 +188,7 @@ app.get('/REC', CRUD.FindUsrRecipes)
 app.get('/See2', CRUD.SeeUsrRec)
 app.get('/See3', CRUD.SeeRecIng)
 app.get('/See4', CRUD.SeeRec)
+app.get('/DeleteRecipe',CRUD.DeleteRecipes)
 
 
 //Back Route
