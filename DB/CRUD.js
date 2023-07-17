@@ -169,7 +169,6 @@ const CreateUserINGTable = (req, res) => {
             res.status(400).send("cannot find USR_ING");
             return;
         }
-        //res.send(mysqlres);
         res.send(mysqlres);
         console.log("found USR_ING");
         return;
@@ -190,7 +189,7 @@ const loginCheck = (req, res) => {
               }
           
               if (result.length > 0) {
-                res.cookie('UserName', username);
+                res.cookie('User_Name', username);
                 res.redirect('/PIngredients');
             } else {
                       //Display an alert pop-up message and redirect back to /login
@@ -199,4 +198,144 @@ const loginCheck = (req, res) => {
             });
           };
 
-module.exports = {DeleteUserING, loginCheck, DeleteAllUsers, InsertNewUser2, CreateUserTable, SelectAllUsers, InsertCSVUsers, CreateUserINGTable, InsertToUsersING, SeeUsrIng }
+const CreateRecipesIngredientsTable = (req, res) => {
+    const Q1 = 'CREATE TABLE IF NOT EXISTS `REC_ING` (\
+        R_ID int(1) NOT NULL PRIMARY KEY,\
+        I_ID int(1) NOT NULL\
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
+    SQL.query(Q1, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send(err);
+            return;
+        }
+        console.log("Recipes-Ingredients Table Created");
+        return;
+    })
+};
+
+const InsertCSVRecipesIngredients = (req, res) => {
+    const csvPath = path.join(__dirname, "IngRecipesData.csv");
+    csvtojson().fromFile(csvPath).then((jsonObj) => {
+        for (let i = 0; i < jsonObj.length; i++) {
+            const element = jsonObj[i];
+            console.log(element);
+            const NewCsvData = {
+                R_ID: element.R_ID,
+                I_ID: element.I_ID
+            };
+            const Q1 = "INSERT IGNORE INTO REC_ING SET ?";
+            SQL.query(Q1, NewCsvData, (err, mysqlres) => {
+                if (err) {
+                    throw err
+                }
+            });
+        }
+    });
+};
+
+const CreateRecipesTable = (req, res) => {
+    const Q1 = 'CREATE TABLE IF NOT EXISTS `RECIPES` (\
+        ID int(1) NOT NULL PRIMARY KEY,\
+        Name varchar(50) NOT NULL,\
+        Instructions varchar(250) NOT NULL,\
+        Picture varchar(50) NOT NULL\
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
+    SQL.query(Q1, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send(err);
+            return;
+        }
+        console.log("Recipes Table Created");
+        return;
+    })
+};
+
+const InsertCSVRecipes = (req, res) => {
+    const csvPath = path.join(__dirname, "Recipes.csv");
+    csvtojson().fromFile(csvPath).then((jsonObj) => {
+        for (let i = 0; i < jsonObj.length; i++) {
+            const element = jsonObj[i];
+            console.log(element);
+            const NewCsvData = {
+                ID: element.ID,
+                Name: element.Name,
+                Instructions: element.Instructions,
+                Picture: element.Picture
+            };
+            const Q1 = "INSERT IGNORE INTO RECIPES SET ?";
+            SQL.query(Q1, NewCsvData, (err, mysqlres) => {
+                if (err) {
+                    throw err
+                }
+            });
+        }
+    });
+};
+
+const FindUsrRecipes = (req, res) => {
+    const dropTableQuery = "DROP TABLE IF EXISTS USR_RECIPES";
+    const createTableQuery = "CREATE TABLE USR_RECIPES (ID INT, Name VARCHAR(255), Instructions VARCHAR(255), Picture VARCHAR(255))";
+    const insertDataQuery = "INSERT INTO USR_RECIPES (ID, Name, Instructions, Picture) \
+    SELECT R.ID, R.Name, R.Instructions, R.Picture \
+    FROM RECIPES AS R \
+    JOIN REC_ING AS RI ON R.ID = RI.R_ID \
+    LEFT JOIN USR_ING AS UI ON UI.IngID = RI.I_ID \
+    GROUP BY R.ID, R.Name, R.Instructions, R.Picture \
+    HAVING COUNT(RI.I_ID) = COUNT(UI.IngID)";
+
+    // Execute the SQL query to drop the table if it exists
+    SQL.query(dropTableQuery, (error, result) => {
+        if (error) {
+            console.error("Error dropping USR_RECIPES table:", error);
+            res.status(400).json({ error: "Error dropping USR_RECIPES table" });
+            return;
+        }
+
+        // Execute the SQL query to create an empty table
+        SQL.query(createTableQuery, (error, result) => {
+            if (error) {
+                console.error("Error creating USR_RECIPES table:", error);
+                res.status(400).json({ error: "Error creating USR_RECIPES table" });
+                return;
+            }
+
+            // Execute the SQL query to insert data into the table
+            SQL.query(insertDataQuery, (error, result) => {
+                if (error) {
+                    console.error("Error inserting data into USR_RECIPES table:", error);
+                    res.status(400).json({ error: "Error inserting data into USR_RECIPES table" });
+                    return;
+                }
+
+                console.log("USR_RECIPES table created and data inserted successfully");
+                res.status(200).json({ message: "USR_RECIPES table created and data inserted successfully" });
+            });
+        });
+    });
+};
+
+const SeeUsrRec = (req, res) => {
+    const Q = 'select * from USR_RECIPES';
+    SQL.query(Q, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send("cannot find USR_RECIPES");
+            return;
+        }
+        res.send(mysqlres);
+        console.log("found USR_RECIPES");
+        return;
+    })
+};
+
+
+module.exports = {
+    loginCheck,
+    CreateUserTable, InsertCSVUsers, DeleteAllUsers, InsertNewUser2, SelectAllUsers, 
+    CreateUserINGTable, DeleteUserING, InsertToUsersING, SeeUsrIng,
+    CreateRecipesIngredientsTable, InsertCSVRecipesIngredients,
+    CreateRecipesTable, InsertCSVRecipes,
+    FindUsrRecipes, SeeUsrRec
+ }

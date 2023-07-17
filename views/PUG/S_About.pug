@@ -1,0 +1,36 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Herrods Munchies - About
+  link(rel='stylesheet' href='styles.css')
+  script(src='nightmode.js')
+nav.animated.fade-in
+  ul
+    li
+      a(href='/PIngredients') Edit Ingredients
+    li
+    li
+      a(href='/PRecipes') View All Recipes
+  ul.navbar-right
+    li
+      button(onclick='toggleNightMode()') Toggle Night Mode
+    li
+      a(href='/PSignIn') Log Out
+
+
+p
+main
+  .container
+    #logo-container
+      img#logo(src='/IMG/racoon.png' alt='Logo' height='175px' width='175px')
+    .About-Text
+      h3 Welcome to Herrods Munchies!
+      p
+        | Using this app you can mark which ingredients you have on hand,
+        | and get suggestions and instructions for meals that you can cook in the Harrods kitchen using said ingredients! 
+        br
+      h3
+        | Happy Cooking!
+footer
+  | &copy; 2023 Herrods Munchies. All rights reserved.

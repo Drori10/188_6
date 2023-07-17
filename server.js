@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const CRUD = require('./DB/CRUD');
 const { DB } = require('./DB/DB.config');
@@ -8,6 +9,7 @@ const csv = require('csv-parser');
 const fs = require('fs'); //for csv data reading
 
 app.use(express.static('static'));
+app.use(cookieParser());
 
 // Parse URL-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -65,6 +67,9 @@ app.get('/PAbout', (req, res) => {
 app.get('/', (req, res) => {
   res.render('About');
 });
+app.get('/PsAbout', (req, res) => {
+  res.render('s_About');
+});
 app.get('/PSignIn', (req, res) => {
   res.render('SignIn');
 });
@@ -75,7 +80,10 @@ app.post('/PSignUp', (req, res) => {
   res.render('SignUp');
 });
 app.get('/PIngredients', (req, res) => {
-  res.render('Ingredients', { IngData });
+  // Retrieve the username from the cookie
+  const username = req.cookies.User_Name;
+  // Send the username to the client
+  res.render('Ingredients', { username, IngData });
 });
 app.post('/PIngredients', (req, res) => {
   res.render('Ingredients', { IngData });
@@ -114,6 +122,7 @@ app.post('/MyIng', (req, res) => {
 // Set up routes
 
 //*********DB
+//STARTUP CRUDS
 // Create the table when the server starts
 CRUD.CreateUserTable(null, {
   render: function (view, data) {
@@ -140,12 +149,43 @@ CRUD.InsertCSVUsers(null, {
   }
 });
 
+CRUD.CreateRecipesTable((err, data) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(data); // Log the result
+});
 
-//CRUDS
+CRUD.InsertCSVRecipes(null, {
+  render: function (view, data) {
+  },
+  status: function (statusCode) {
+  }
+});
+
+CRUD.CreateRecipesIngredientsTable((err, data) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(data); // Log the result
+});
+
+CRUD.InsertCSVRecipesIngredients(null, {
+  render: function (view, data) {
+  },
+  status: function (statusCode) {
+  }
+});
+
+//CRUDS Paths
 app.post('/NewSignUp',CRUD.InsertNewUser2);
 app.get('/ALL',CRUD.SelectAllUsers);
 app.get('/DeleteAll', CRUD.DeleteAllUsers);
 app.get('/See', CRUD.SeeUsrIng)
+app.get('/REC', CRUD.FindUsrRecipes)
+app.get('/See2', CRUD.SeeUsrRec  )
 
 //Back Route
 app.get('/Back', (req, res) => {

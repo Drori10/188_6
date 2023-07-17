@@ -6,7 +6,7 @@ head
 nav.animated.fade-in
   ul
     li
-      a(href='/PAbout') About Us
+      a(href='/PsAbout') About Us
     li
     li
       a(href='/PRecipes') View All Recipes
@@ -19,7 +19,8 @@ main
   .container
     #logo-container
       img#logo(src='/IMG/racoon.png', alt='Logo', height='175px', width='175px')
-    h2 Select the ingredients that you have:
+    h2 Hello #{username}
+    h3 Select the ingredients that you have:
     br
     form#ingredients-form(action='/MyIng', method='post')
       table
