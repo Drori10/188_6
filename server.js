@@ -102,30 +102,35 @@ app.post('/checkLogin', (req, res) => {
   CRUD.loginCheck(req, res);
 });
 
-app.post('/MyIng', (req, res) => {
+app.post('/MyIng', (req, response) => {
   // Retrieve the form data from the request body
   const formValues = req.body;
-  CRUD.DeleteUserING(req, res);
+  CRUD.DeleteUserING(req, response);
   // Pass the form data to your CRUD function
   CRUD.InsertToUsersING(formValues, (err, result) => {
     if (err) {
       console.log(err);
-      res.status(500).send('Error occurred');
+      response.status(500).send('Error occurred');
       return;
     }
-    
-    CRUD.FindUsrRecipes; //THIS LINE doesnt run properly 
+    response.redirect('/UsrRec1');
+  });
+  });
 
-    CRUD.SeeUsrRec((error, UserRecipes) => {
+  app.get('/UsrRec1', CRUD.FindUsrRecipes)
+
+ app.get('/UsrRec2', (req, response) => {
+    CRUD.SelectUSRRec((error, UserRecipes) => {
       if (error) {
         console.error(error);
-        res.status(500).send('Error occurred');
+        response.status(500).send('Error occurred');
+        return;
       }
-    res.render('USR_Recipes', { UserRecipes }); 
-
+      response.render('USR_Recipes', { UserRecipes });
+    });
   });
-});
-});
+
+  
 
 
 // Set up routes
@@ -198,7 +203,16 @@ app.get('/See2', CRUD.SeeUsrRec)
 app.get('/See3', CRUD.SeeRecIng)
 app.get('/See4', CRUD.SeeRec)
 app.get('/DeleteRecipe',CRUD.DeleteRecipes)
-
+app.get('/jontest', (req, res) => {
+  CRUD.SelectUSRRec((error, UserRecipes) => {
+    if (error) {
+      console.error(error);
+      response.status(500).send('Error occurred');
+      return;
+    }
+    UserRecipes.render('USR_Recipes', { UserRecipes });
+  });
+});
 
 //Back Route
 app.get('/Back', (req, res) => {

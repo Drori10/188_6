@@ -53,41 +53,60 @@ const InsertCSVUsers = (req, res) => {
 };
 
 const InsertNewUser2 = (req, res) => {
-    const NewSignUp = {
-        ID: req.body.ID,
-        Email: req.body.Email,
-        FullName: req.body.FullName,
-        UserName: req.body.UserName,
-        Password: req.body.Password,
-        CourseNumber: req.body.CourseNumber
-    };
 
-    const user_data = Object.values(NewSignUp);
-
-    const csvPath = path.join(__dirname, 'Users.csv');
-
-    // Write the user_data to the CSV file
-    const csvLine = user_data.join(',');
-    const csvRow = csvLine + '\n';
-
-    fs.appendFile(csvPath, csvRow, 'utf8', (err) => {
-        if (err) {
-            console.error('Error writing data to CSV file:', err);
-            res.send("Something went wrong.");
-            return;
-        }
-        const query = "INSERT INTO USERS (ID, Email, FullName, UserName, Password, CourseNumber) VALUES (?, ?, ?, ?, ?, ?)";
-        SQL.query(query, user_data, (err, mysqlres) => {
+    const username = req.body.UserName;
+  
+    const checkQuery = 'SELECT * FROM USERS WHERE UserName = ?';
+    SQL.query(checkQuery, [username], (err, result) => {
+      if (err) {
+        console.error('Error checking signup credentials:', err);
+        res.status(500).send('Something went wrong');
+        return;
+      }
+  
+      if (result.length != 0) {
+        // Display an alert pop-up message and redirect to /PSignUp
+        res.send("<script>alert('Username Taken'); window.location.href = '/PSignUp';</script>");
+      
+    }
+    else{
+        const NewSignUp = {
+            ID: req.body.ID,
+            Email: req.body.Email,
+            FullName: req.body.FullName,
+            UserName: req.body.UserName,
+            Password: req.body.Password,
+            CourseNumber: req.body.CourseNumber
+        };
+    
+        const user_data = Object.values(NewSignUp);
+    
+        const csvPath = path.join(__dirname, 'Users.csv');
+    
+        // Write the user_data to the CSV file
+        const csvLine = user_data.join(',');
+        const csvRow = csvLine + '\n';
+    
+        fs.appendFile(csvPath, csvRow, 'utf8', (err) => {
             if (err) {
-                console.log(err);
+                console.error('Error writing data to CSV file:', err);
                 res.send("Something went wrong.");
                 return;
             }
-
-            res.cookie("Username", req.body.UserName);
-            res.redirect('/PSignIn');
+            const query = "INSERT INTO USERS (ID, Email, FullName, UserName, Password, CourseNumber) VALUES (?, ?, ?, ?, ?, ?)";
+            SQL.query(query, user_data, (err, mysqlres) => {
+                if (err) {
+                    console.log(err);
+                    res.send("Something went wrong.");
+                    return;
+                }
+    
+                res.cookie("Username", req.body.UserName);
+                res.redirect('/PSignIn');
+            });
         });
-    });
+    }
+});
 };
 
 
@@ -248,7 +267,6 @@ const InsertCSVRecipesIngredients = (req, res) => {
                 if (err) {
                     throw err
                 }
-                console.log("********csv rec_ing inserted")
             });
         }
     });
@@ -325,7 +343,6 @@ const FindUsrRecipes = (req, res) => {
     SQL.query(deleteDataQuery, (error, result) => {
         if (error) {
             console.error("Error deleting data from USR_RECIPES table:", error);
-            res.status(400).json({ error: "Error deleting data from USR_RECIPES table" });
             return;
         }
         console.log("********* USR_RECIPES deleted if exists")
@@ -333,31 +350,29 @@ const FindUsrRecipes = (req, res) => {
         SQL.query(dropTableQuery, (error, result) => {
             if (error) {
                 console.error("Error dropping USR_RECIPES table:", error);
-                res.status(400).json({ error: "Error dropping USR_RECIPES table" });
                 return;
             }
             // Execute the SQL query to create an empty table
             SQL.query(createTableQuery, (error, result) => {
                 if (error) {
                     console.error("Error creating USR_RECIPES table:", error);
-                    res.status(400).json({ error: "Error creating USR_RECIPES table" });
                     return;
                 }
                 // Execute the SQL query to insert data into the table
                 SQL.query(insertDataQuery, (error, result) => {
                     if (error) {
                         console.error("Error inserting data into USR_RECIPES table:", error);
-                        res.status(400).json({ error: "Error inserting data into USR_RECIPES table" });
                         return;
                     }
                     console.log("USR_RECIPES table created and data inserted successfully");
+                    res.redirect('/UsrRec2');
                 });
             });
         });
-    });
+    }); 
 };
 
-const SeeUsrRec = (callback) => {
+const SelectUSRRec = (callback) => {
     const Q = 'SELECT * FROM USR_RECIPES';
     SQL.query(Q, (err, mysqlres) => {
       if (err) {
@@ -369,6 +384,20 @@ const SeeUsrRec = (callback) => {
       }
     });
   };
+
+
+  const SeeUsrRec = (req, res) => {
+    const Q = 'select * from USR_RECIPES';
+    SQL.query(Q, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send("cannot find USR_RECIPES");
+            return;
+        }
+        const UserRecipes = mysqlres;
+        res.render('USR_Recipes', { UserRecipes });
+    })
+};
 
 const SeeRecIng = (req, res) => {
     const Q = 'select * from REC_ING';
@@ -406,5 +435,5 @@ module.exports = {
     CreateUserINGTable, DeleteUserING, InsertToUsersING, SeeUsrIng,
     CreateRecipesIngredientsTable, InsertCSVRecipesIngredients, SeeRecIng,
     CreateRecipesTable, InsertCSVRecipes, SeeRec, DeleteRecipes,
-    FindUsrRecipes, SeeUsrRec
+    FindUsrRecipes, SelectUSRRec,SeeUsrRec
  }
