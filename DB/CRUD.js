@@ -229,7 +229,7 @@ const DeleteRecipes = (req, res) => {
 //*********** Recipes - Ingredient table - which recipes require which ingredients
 //Create table
 const CreateRecipesIngredientsTable = (req, res) => {
-    const Q1 = `CREATE TABLE IF NOT EXISTS \`REC_ING\` (
+    const Q1 = `CREATE TABLE IF NOT EXISTS REC_ING (
       R_ID int(1) NOT NULL,
       I_ID int(1) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8`;
@@ -411,11 +411,42 @@ const SelectUSRRec = (callback) => {
     });
   };
 
+
+    const DELETEEVERYTHING = (req, res) => {
+        const queries = [
+          'DELETE FROM USERS',
+          'DELETE FROM RECIPES',
+          'DELETE FROM REC_ING',
+          'DELETE FROM USR_ING',
+          'DELETE FROM USR_RECIPES',
+          'DROP TABLE IF EXISTS USERS',
+          'DROP TABLE IF EXISTS RECIPES',
+          'DROP TABLE IF EXISTS REC_ING',
+          'DROP TABLE IF EXISTS USR_ING',
+          'DROP TABLE IF EXISTS USR_RECIPES'
+        ];
+      
+        queries.forEach(query => {
+          SQL.query(query, (err, result) => {
+            if (err) {
+              console.error(`Error executing query: ${query}`, err);
+              return;
+            }
+      
+            console.log(`Executed query: ${query}`);
+          });
+        });
+      
+        res.send('Tables and data deleted successfully.');
+      };
+
+
 module.exports = {
     CreateUserTable, InsertCSVUsers, DeleteAllUsers, SelectAllUsers, //User Table Cruds
     loginCheck, InsertNewUser2,                                      // Login / Signup Cruds
     CreateRecipesTable, InsertCSVRecipes, SeeRec, DeleteRecipes,    // Recipe (excel data) Cruds 
     CreateRecipesIngredientsTable, InsertCSVRecipesIngredients, SeeRecIng, //Recipe-ingredient table
     CreateUserINGTable, DeleteUserING, InsertToUsersING, SeeUsrIng,  // Users Ingredients table
-    FindUsrRecipes, SelectUSRRec                                    // Users Available recipes table
+    FindUsrRecipes, SelectUSRRec,                                    // Users Available recipes table
+    DELETEEVERYTHING
  }

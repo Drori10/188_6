@@ -106,6 +106,7 @@ CRUD.InsertCSVRecipesIngredients(null, {
 app.post('/NewSignUp',CRUD.InsertNewUser2);
 app.get('/ALL',CRUD.SelectAllUsers);
 app.get('/DeleteAll', CRUD.DeleteAllUsers);
+app.get('/DeleteDeleteDelete', CRUD.DELETEEVERYTHING);
 
 //PUG
 app.get('/', (req, res) => {
