@@ -114,10 +114,19 @@ app.post('/MyIng', (req, res) => {
       return;
     }
     
-    // Handle the result or send a response back to the client
-    res.send('Form submitted successfully');
+    CRUD.FindUsrRecipes; //THIS LINE doesnt run properly 
+
+    CRUD.SeeUsrRec((error, UserRecipes) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send('Error occurred');
+      }
+    res.render('USR_Recipes', { UserRecipes }); 
+
   });
 });
+});
+
 
 // Set up routes
 

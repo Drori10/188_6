@@ -22,12 +22,12 @@ main
     h2 Meals you can cook
     br
     table
-      each row in RecipesData
+      each element in UserRecipes
         tr.container
           td.RtdImg 
-             img(src='/IMG/Recipes/' + row.Picture, alt=row.Name, height="200px", width="200px")
-          td.RtdName= row.Name
-          td.RtdInst= row.Instructions
+             img(src='/IMG/Recipes/' + element.Picture, alt=element.Name, height="200px", width="200px")
+          td.RtdName= element.Name
+          td.RtdInst= element.Instructions
           //td.RtdIng= row.Ingredients
              
 footer

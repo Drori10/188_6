@@ -85,7 +85,7 @@ const InsertNewUser2 = (req, res) => {
             }
 
             res.cookie("Username", req.body.UserName);
-            res.redirect('/PIngredients');
+            res.redirect('/PSignIn');
         });
     });
 };
@@ -204,18 +204,31 @@ const loginCheck = (req, res) => {
               R_ID int(1) NOT NULL,
               I_ID int(1) NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8`;
+          
+            const Q3 = 'ALTER TABLE `REC_ING` DROP PRIMARY KEY';
+          
             const Q2 = 'ALTER TABLE `REC_ING` ADD PRIMARY KEY (R_ID, I_ID)';
+          
             SQL.query(Q1, (err, mysqlres) => {
               if (err) {
                 console.log(err);
                 return res.status(400).send(err);
               }
           
-              SQL.query(Q2, (err, mysqlres2) => {
+              SQL.query(Q3, (err, mysqlres2) => {
                 if (err) {
                   console.log(err);
+                  return res.status(400).send(err);
                 }
-                console.log("Primary key added to REC_ING table");
+          
+                SQL.query(Q2, (err, mysqlres3) => {
+                  if (err) {
+                    console.log(err);
+                    return res.status(400).send(err);
+                  }
+          
+                  console.log("Primary key added to REC_ING table");
+                });
               });
             });
           };
@@ -299,18 +312,14 @@ const FindUsrRecipes = (req, res) => {
     const deleteDataQuery = "DELETE FROM USR_RECIPES WHERE EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'USR_RECIPES')";
     const dropTableQuery = "DROP TABLE IF EXISTS USR_RECIPES";
     const createTableQuery = "CREATE TABLE USR_RECIPES (ID INT, Name VARCHAR(255), Instructions VARCHAR(255), Picture VARCHAR(255))";
-    const insertDataQuery = `
-    INSERT INTO USR_RECIPES (ID, Name, Instructions, Picture)
-    SELECT R.ID, R.Name, R.Instructions, R.Picture
-FROM Recipes AS R
-WHERE NOT EXISTS (
-  SELECT RI.I_ID
-  FROM REC_ING AS RI
-  LEFT JOIN USR_ING AS UI ON RI.I_ID = UI.I_ID
-  WHERE RI.R_ID = R.ID AND UI.I_ID IS NULL
-);
-
-    `;
+    const insertDataQuery = "INSERT INTO USR_RECIPES (ID, Name, Instructions, Picture) \
+    SELECT R.ID, R.Name, R.Instructions, R.Picture \
+    FROM RECIPES AS R \
+    JOIN REC_ING AS RI ON R.ID = RI.R_ID \
+    LEFT JOIN USR_ING AS UI ON UI.IngID = RI.I_ID \
+    GROUP BY R.ID, R.Name, R.Instructions, R.Picture \
+    HAVING COUNT(DISTINCT RI.I_ID) = COUNT(DISTINCT UI.IngID) \
+       AND COUNT(DISTINCT RI.I_ID) = (SELECT COUNT(*) FROM REC_ING WHERE R_ID = R.ID)";
 
     // Execute the SQL query to delete data from the table
     SQL.query(deleteDataQuery, (error, result) => {
@@ -342,26 +351,24 @@ WHERE NOT EXISTS (
                         return;
                     }
                     console.log("USR_RECIPES table created and data inserted successfully");
-                    res.status(200).json({ message: "USR_RECIPES table created and data inserted successfully" });
                 });
             });
         });
     });
 };
 
-const SeeUsrRec = (req, res) => {
-    const Q = 'select * from USR_RECIPES';
+const SeeUsrRec = (callback) => {
+    const Q = 'SELECT * FROM USR_RECIPES';
     SQL.query(Q, (err, mysqlres) => {
-        if (err) {
-            console.log(err);
-            res.status(400).send("cannot find USR_RECIPES");
-            return;
-        }
-        res.send(mysqlres);
-        console.log("found USR_RECIPES");
-        return;
-    })
-};
+      if (err) {
+        console.log(err);
+        callback(err);
+      } else {
+        console.log("Found USR_RECIPES");
+        callback(null, mysqlres);
+      }
+    });
+  };
 
 const SeeRecIng = (req, res) => {
     const Q = 'select * from REC_ING';
