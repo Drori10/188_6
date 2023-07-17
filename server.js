@@ -62,6 +62,9 @@ app.set('views', './views/PUG');
 app.get('/PAbout', (req, res) => {
   res.render('About');
 });
+app.get('/', (req, res) => {
+  res.render('About');
+});
 app.get('/PSignIn', (req, res) => {
   res.render('SignIn');
 });
@@ -137,71 +140,12 @@ CRUD.InsertCSVUsers(null, {
   }
 });
 
+
+//CRUDS
 app.post('/NewSignUp',CRUD.InsertNewUser2);
 app.get('/ALL',CRUD.SelectAllUsers);
 app.get('/DeleteAll', CRUD.DeleteAllUsers);
 app.get('/See', CRUD.SeeUsrIng)
-
-// OLD DOESNT WORK
-app.post('/OLDSIGNUPNOTGOOD', (req, res) => {
-  CRUD.InsertNewUser(req.query, {
-    send: function (response) {
-      res.render('Ingredients', { IngData });
-    },
-    status: function (statusCode) {
-      // Handle status if needed
-    }
-  }); 
-});
-
-app.get('/selectAll', CRUD.SelectAllUsers)
-
-// Start page route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/html', 'SignIn.html'));
-});
-
-// Home page route
-app.get('/About', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/html', 'About.html'));
-});
-
-//Sign In Route - GET
-app.get('/SignIn', (req, res) => {
-  let userExists = false;
-  res.sendFile(path.join(__dirname, 'views/html', 'SignIn.html'));
-});
-//Sign In Route - POST
-app.post('/SignIn', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/html', 'SignIn.html'));
-});
-
-//Sign Up Route - GET
-app.get('/SignUp', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/html', 'SignUp.html'));
-});
-//Sign Up Route - POST
-app.post('/SignUp', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/html', 'SignUp.html'));
-});
-
-// Ingredients Route - GET
-app.get('/Ingredients', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/html', 'Ingredients.html'));
-});
-// Ingrediients Route - POST
-app.post('/Ingredients', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/html', 'Ingredients.html'));
-});
-
-//Recipe Route - GET
-app.get('/Recipes', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/html', 'Recipes.html'));
-});
-//Recipe Route - POST
-app.post('/Recipes', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views/html', 'Recipes.html'));
-});
 
 //Back Route
 app.get('/Back', (req, res) => {
