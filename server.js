@@ -50,7 +50,7 @@ fs.createReadStream('DB/Recipes.csv')
   fs.createReadStream('DB/Users.csv')
   .pipe(csv())
   .on('data', (row) => {
-    IngData.push(row);
+    CSVUserData.push(row);
   })
   .on('end', () => {
     console.log('Users CSV file successfully processed.');
@@ -185,7 +185,10 @@ app.get('/ALL',CRUD.SelectAllUsers);
 app.get('/DeleteAll', CRUD.DeleteAllUsers);
 app.get('/See', CRUD.SeeUsrIng)
 app.get('/REC', CRUD.FindUsrRecipes)
-app.get('/See2', CRUD.SeeUsrRec  )
+app.get('/See2', CRUD.SeeUsrRec)
+app.get('/See3', CRUD.SeeRecIng)
+app.get('/See4', CRUD.SeeRec)
+
 
 //Back Route
 app.get('/Back', (req, res) => {

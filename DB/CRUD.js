@@ -33,7 +33,7 @@ const InsertCSVUsers = (req, res) => {
             const element = jsonObj[i];
             console.log(element);
             const NewCsvData = {
-                ID: element.ID,
+                ID: element.ID_U,
                 Email: element.Email,
                 FullName: element.FullName,
                 UserName: element.UserName,
@@ -221,8 +221,8 @@ const InsertCSVRecipesIngredients = (req, res) => {
             const element = jsonObj[i];
             console.log(element);
             const NewCsvData = {
-                R_ID: element.R_ID,
-                I_ID: element.I_ID
+                R_ID: element.RecipeID,
+                I_ID: element.IngredientID
             };
             const Q1 = "INSERT IGNORE INTO REC_ING SET ?";
             SQL.query(Q1, NewCsvData, (err, mysqlres) => {
@@ -259,7 +259,7 @@ const InsertCSVRecipes = (req, res) => {
             const element = jsonObj[i];
             console.log(element);
             const NewCsvData = {
-                ID: element.ID,
+                ID: element.RecipeID,
                 Name: element.Name,
                 Instructions: element.Instructions,
                 Picture: element.Picture
@@ -269,6 +269,7 @@ const InsertCSVRecipes = (req, res) => {
                 if (err) {
                     throw err
                 }
+                console.log("***RECIPES****")
             });
         }
     });
@@ -330,12 +331,41 @@ const SeeUsrRec = (req, res) => {
     })
 };
 
+const SeeRecIng = (req, res) => {
+    const Q = 'select * from REC_ING';
+    SQL.query(Q, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send("cannot find REC_ING");
+            return;
+        }
+        res.send(mysqlres);
+        console.log("found REC_ING");
+        return;
+    })
+};
+
+const SeeRec = (req, res) => {
+    const Q = 'select * from RECIPES';
+    SQL.query(Q, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send("cannot find RECIPES");
+            return;
+        }
+        res.send(mysqlres);
+        console.log("found RECIPES");
+        return;
+    })
+};
+
+
 
 module.exports = {
     loginCheck,
     CreateUserTable, InsertCSVUsers, DeleteAllUsers, InsertNewUser2, SelectAllUsers, 
     CreateUserINGTable, DeleteUserING, InsertToUsersING, SeeUsrIng,
-    CreateRecipesIngredientsTable, InsertCSVRecipesIngredients,
-    CreateRecipesTable, InsertCSVRecipes,
+    CreateRecipesIngredientsTable, InsertCSVRecipesIngredients, SeeRecIng,
+    CreateRecipesTable, InsertCSVRecipes, SeeRec,
     FindUsrRecipes, SeeUsrRec
  }
