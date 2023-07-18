@@ -1,11 +1,11 @@
 const SQL = require('./db');
 const path = require('path');
 const csvtojson = require('csvtojson');
-const fs = require('fs'); //csv
+const fs = require('fs'); //needed for csv
 const createCsvWriter = require('csv-writer');
 
 
-//*** USERS TABLE CRUDS:
+//********* USERS TABLE CRUDS:
 // Create USERS Table
 const CreateUserTable = (req, res) => {
     const Q1 = 'CREATE TABLE IF NOT EXISTS `USERS` (\
@@ -21,8 +21,9 @@ const CreateUserTable = (req, res) => {
             console.log(err);
             return;
         }
-        return;
-    })
+        console.log("users created");
+        res.redirect('/CRUD.InsertCSVUsers');
+        })
 };
 
 // INSERT EXCEL CSV DATA TO TABLE
@@ -46,6 +47,8 @@ const InsertCSVUsers = (req, res) => {
                 }
             });
         }
+        console.log("users csv inserted");
+        res.redirect('/CRUD.CreateUserINGTable')
     });
 };
 
@@ -157,9 +160,15 @@ const loginCheck = (req, res) => {
     });
   };
 
-//*** */ RECIPE TABLE
-//Create table
+//********* */ RECIPE TABLE
+//Create Recipes table
 const CreateRecipesTable = (req, res) => {
+    const DropTable = 'DROP TABLE IF EXISTS RECIPES '
+    SQL.query(DropTable, (err, mysqlres) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
     const Q1 = 'CREATE TABLE IF NOT EXISTS `RECIPES` (\
         ID int(1) NOT NULL PRIMARY KEY,\
         Name varchar(50) NOT NULL,\
@@ -172,9 +181,10 @@ const CreateRecipesTable = (req, res) => {
             res.send(err);
             return;
         }
-        return;
+        console.log("Recipes Created");
+        res.redirect('/CRUD.InsertCSVRecipes')
     })
-};
+})};
 
 //Insert excel data to table
 const InsertCSVRecipes = (req, res) => {
@@ -195,6 +205,8 @@ const InsertCSVRecipes = (req, res) => {
                 }
             });
         }
+        console.log("Recipes csv Inserted");
+        res.redirect('/CRUD.CreateRecipesIngredientsTable')
     });
 };
 //ADMIN-- Select all Recipes (not used)
@@ -226,45 +238,34 @@ const DeleteRecipes = (req, res) => {
     })
 };
 
-//***** Recipes - Ingredient table - which recipes require which ingredients
-//Create table
-const CreateRecipesIngredientsTable1 = (req, res) => {
+//*********** Recipes - Ingredient table - which recipes require which ingredients
+//Create REC-ING table
+const CreateRecipesIngredientsTable = (req, res) => {
     const Q1 = `CREATE TABLE IF NOT EXISTS REC_ING (
       R_ID int(1) NOT NULL,
       I_ID int(1) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8`;
-    SQL.query(Q1, (err, mysqlres) => {
-      if (err) {
+    const Q2 = 'ALTER TABLE `REC_ING` ADD PRIMARY KEY (R_ID, I_ID)';
+    const DropTable = 'DROP TABLE IF EXISTS REC_ING '
+    SQL.query(DropTable, (err, mysqlres) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        SQL.query(Q1, (err, mysqlres) => {
+        if (err) {
         console.log(err);
         return;
-      }
-    });
-  };
-
-  const CreateRecipesIngredientsTable2 = (req, res) => {
-    const Q2 = 'ALTER TABLE `REC_ING` DROP PRIMARY KEY';
-    const Q2222 = 'ALTER TABLE `REC_ING` ADD PRIMARY KEY (R_ID, I_ID)';
-  
-    SQL.query(Q2, (err, mysqlres) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-    })
-  };
-
-  const CreateRecipesIngredientsTable3 = (req, res) => {
-    const Q3 = 'ALTER TABLE `REC_ING` ADD PRIMARY KEY (R_ID, I_ID)';
-  
-    SQL.query(Q3, (err, mysqlres) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-    })
-  };
-
-
+        }
+        SQL.query(Q2, (err, mysqlres3) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+        });
+      });
+      res.redirect('/CRUD.InsertCSVRecipesIngredients')
+    })};
 
 // Insert into table from CSV excel data
 const InsertCSVRecipesIngredients = (req, res) => {
@@ -281,8 +282,9 @@ const InsertCSVRecipesIngredients = (req, res) => {
                 if (err) {
                     throw err
                 }
-            });
+            });            
         }
+        res.redirect('/PAbout')
     });
 };
 
@@ -301,17 +303,24 @@ const SeeRecIng = (req, res) => {
     })
 };
 
-//*** Users Ingredients table (what ingredients did the user check)
-//Create table
+//******* Users Ingredients table (what ingredients did the user check)
+//Create User's ING table
 const CreateUserINGTable = (req, res) => {
+    const DropTable = 'DROP TABLE IF EXISTS USR_ING '
+    SQL.query(DropTable, (err, mysqlres) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
     const Q1 = 'CREATE TABLE IF NOT EXISTS USR_ING (IngID int NOT NULL)';
     SQL.query(Q1, (err, mysqlres) => {
       if (err) {
         console.log(err);
         return;
       }
+      res.redirect('/CRUD.CreateRecipesTable')
     });
-  };
+  })};
 
   //Delete Table
 const DeleteUserING = (req, res) => {
@@ -359,9 +368,8 @@ const SeeUsrIng = (req, res) => {
     })
 };
 
-//**** Users found recipes according to his ingredients
+//******** Users found recipes according to his ingredients
 const FindUsrRecipes = (req, res) => {
-    const deleteDataQuery = "DELETE FROM USR_RECIPES WHERE EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'USR_RECIPES')";
     const dropTableQuery = "DROP TABLE IF EXISTS USR_RECIPES";
     const createTableQuery = "CREATE TABLE USR_RECIPES (ID INT, Name VARCHAR(255), Instructions VARCHAR(255), Picture VARCHAR(255))";
     const insertDataQuery = "INSERT INTO USR_RECIPES (ID, Name, Instructions, Picture) \
@@ -373,12 +381,6 @@ const FindUsrRecipes = (req, res) => {
     HAVING COUNT(DISTINCT RI.I_ID) = COUNT(DISTINCT UI.IngID) \
        AND COUNT(DISTINCT RI.I_ID) = (SELECT COUNT(*) FROM REC_ING WHERE R_ID = R.ID)";
 
-    // delete data from table if exists (previous user)
-    SQL.query(deleteDataQuery, (error, result) => {
-        if (error) {
-            console.error("Error deleting data from USR_RECIPES table:", error);
-            return;
-        }
         console.log("USR_RECIPES deleted if exists")
         //Drop table if exists in order to create new one for new user
         SQL.query(dropTableQuery, (error, result) => {
@@ -403,59 +405,70 @@ const FindUsrRecipes = (req, res) => {
                 });
             });
         });
-    }); 
-};
-//ADMIN -- select all user recipes (not used)
-const SelectUSRRec = (callback) => {
-    const Q = 'SELECT * FROM USR_RECIPES';
-    SQL.query(Q, (err, mysqlres) => {
-      if (err) {
-        console.log(err);
-        callback(err);
-      } else {
-        console.log("Found USR_RECIPES");
-        callback(null, mysqlres);
-      }
-    });
-  };
+    };
 
-
-    const DELETEEVERYTHING = (req, res) => {
-        const queries = [
-          'DELETE FROM USERS',
-          'DELETE FROM RECIPES',
-          'DELETE FROM REC_ING',
-          'DELETE FROM USR_ING',
-          'DELETE FROM USR_RECIPES',
-          'DROP TABLE IF EXISTS USERS',
-          'DROP TABLE IF EXISTS RECIPES',
-          'DROP TABLE IF EXISTS REC_ING',
-          'DROP TABLE IF EXISTS USR_ING',
-          'DROP TABLE IF EXISTS USR_RECIPES'
-        ];
-      
-        queries.forEach(query => {
-          SQL.query(query, (err, result) => {
-            if (err) {
-              console.error(`Error executing query: ${query}`, err);
-              return;
-            }
-      
-            console.log(`Executed query: ${query}`);
-          });
+    const SelectUSRRec = (callback) => {
+        const Q = 'SELECT * FROM USR_RECIPES';
+        SQL.query(Q, (err, mysqlres) => {
+          if (err) {
+            console.log(err);
+            callback(err);
+          } else {
+            console.log("Found USR_RECIPES");
+            callback(null, mysqlres);
+          }
         });
-      
-        res.send('Tables and data deleted successfully.');
       };
+
+//ADMIN -- Drop All Tables in DB (Requies new Startup)
+const DropAll = (req, res) => {
+    const DropUsers = "DROP TABLE IF EXISTS USERS";
+    const DropRecipes = "DROP TABLE IF EXISTS RECIPES";
+    const DropRecIng = "DROP TABLE IF EXISTS REC_ING";
+    const DropUsrIng = "DROP TABLE IF EXISTS USR_ING";
+    const DropUsrRec = "DROP TABLE IF EXISTS USR_RECIPES";
+
+    SQL.query(DropUsers, (err, mysqlres) => {
+        if (err) {
+            console.log(err);
+            res.status(400).send("cannot Drop USERS");
+            return;
+        }
+        SQL.query(DropRecipes, (err, mysqlres) => {
+            if (err) {
+                console.log(err);
+                res.status(400).send("cannot Drop RECIPES");
+                return;
+            }
+            SQL.query(DropRecIng, (err, mysqlres) => {
+                if (err) {
+                    console.log(err);
+                    res.status(400).send("cannot Drop REC_ING");
+                    return;
+                }
+                SQL.query(DropUsrIng, (err, mysqlres) => {
+                    if (err) {
+                        console.log(err);
+                        res.status(400).send("cannot Drop USR_ING");
+                        return;
+                    }
+                    SQL.query(DropUsrRec, (err, mysqlres) => {
+                        if (err) {
+                            console.log(err);
+                            res.status(400).send("cannot Drop USR_RECIPES");
+                            return;
+                        }
+                        console.log("All Tables Dropped");
+                        res.redirect('/PAbout'); 
+                    })})})})})};
 
 
 module.exports = {
-    CreateUserTable, InsertCSVUsers, DeleteAllUsers, SelectAllUsers, //User Table Cruds
-    loginCheck, InsertNewUser2,                                      // Login / Signup Cruds
-    CreateRecipesTable, InsertCSVRecipes, SeeRec, DeleteRecipes,    // Recipe (excel data) Cruds 
-    CreateRecipesIngredientsTable1, InsertCSVRecipesIngredients, SeeRecIng, //Recipe-ingredient table
-    CreateUserINGTable, DeleteUserING, InsertToUsersING, SeeUsrIng,  // Users Ingredients table
-    FindUsrRecipes, SelectUSRRec,                                    // Users Available recipes table
-    DELETEEVERYTHING,
-    CreateRecipesIngredientsTable2, CreateRecipesIngredientsTable3
+    CreateUserTable, InsertCSVUsers, DeleteAllUsers, SelectAllUsers,         //User Table Cruds
+    loginCheck, InsertNewUser2,                                              //Login / Signup Cruds
+    CreateRecipesTable, InsertCSVRecipes, SeeRec, DeleteRecipes,             //Recipe (excel data) Cruds 
+    CreateRecipesIngredientsTable, InsertCSVRecipesIngredients, SeeRecIng,   //Recipe-ingredient table
+    CreateUserINGTable, DeleteUserING, InsertToUsersING, SeeUsrIng,          //Users Ingredients table
+    FindUsrRecipes,SelectUSRRec,                                             // Users Available recipes table
+    DropAll                                                                  //Drops All Relevent Tables.
  }

@@ -11,7 +11,7 @@ app.use(express.static('static'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'pug');
-app.set('views', './views/PUG');
+app.set('views', './views');
 const port = 3000;
 
 //DB csv arrays
@@ -52,79 +52,29 @@ fs.createReadStream('DB/Recipes.csv')
   .on('end', () => {
   });
 
-//STARTUP CRUDS
-CRUD.CreateUserTable(null, {
-  render: function (view, data) {
-  },
-  status: function (statusCode) {
-  }
-});
 
-CRUD.CreateUserINGTable((err, data) => {
-  if (err) {
-    console.log(err);
-    return;
-  }
-});
-
-CRUD.InsertCSVUsers(null, {
-  render: function (view, data) {
-  },
-  status: function (statusCode) {
-  }
-});
-
-CRUD.CreateRecipesTable((err, data) => {
-  if (err) {
-    console.log(err);
-    return;
-  }
-});
-
-CRUD.InsertCSVRecipes(null, {
-  render: function (view, data) {
-  },
-  status: function (statusCode) {
-  }
-});
-
-CRUD.CreateRecipesIngredientsTable1((err, data) => {
-  if (err) {
-    console.log(err);
-    return;
-  }
-  CRUD.CreateRecipesIngredientsTable2((err2, data2) => {
-    if (err2) {
-      console.log(err2);
-      return;
-    }
-    CRUD.CreateRecipesIngredientsTable3((err3, data3) => {
-      if (err3) {
-        console.log(err3);
-        return;
-      }
-    });
-  });
-});
-
-CRUD.InsertCSVRecipesIngredients(null, {
-  render: function (view, data) {
-  },
-  status: function (statusCode) {
-  }
-});
 
 //CRUDS Paths
 app.post('/NewSignUp',CRUD.InsertNewUser2);
 app.get('/ALL',CRUD.SelectAllUsers);
 app.get('/DeleteAll', CRUD.DeleteAllUsers);
-app.get('/DeleteDeleteDelete', CRUD.DELETEEVERYTHING);
+app.get('/DropAll', CRUD.DropAll);
 
+
+
+//STARTUP CRUDS FLOW
+app.get('/', (req, res) => {
+  res.redirect('/CRUD.CreateUserTable')
+});
+app.get('/CRUD.CreateUserTable',CRUD.CreateUserTable);
+app.get('/CRUD.InsertCSVUsers',CRUD.InsertCSVUsers);
+app.get('/CRUD.CreateUserINGTable',CRUD.CreateUserINGTable);
+app.get('/CRUD.CreateRecipesTable',CRUD.CreateRecipesTable);
+app.get('/CRUD.InsertCSVRecipes',CRUD.InsertCSVRecipes);
+app.get('/CRUD.CreateRecipesIngredientsTable',CRUD.CreateRecipesIngredientsTable);
+app.get('/CRUD.InsertCSVRecipesIngredients',CRUD.InsertCSVRecipesIngredients);
 
 //PUG
-app.get('/', (req, res) => {
-  res.render('About');
-});
 app.get('/PAbout', (req, res) => {
   res.render('About');
 });
@@ -137,29 +87,27 @@ app.get('/PSignIn', (req, res) => {
 app.get('/PSignUp', (req, res) => {
   res.render('SignUp');
 });
-app.post('/PSignUp', (req, res) => {
-  res.render('SignUp');
-});
 app.get('/PIngredients', (req, res) => {
   // Retrieve the username from the cookie
   const username = req.cookies.User_Name;
   // Send the username to the client
   res.render('Ingredients', { username, IngData });
 });
-app.post('/PIngredients', (req, res) => {
-  res.render('Ingredients', { IngData });
-  });
 app.get('/PRecipes', (req, res) => {
   res.render('Recipes', { RecipesData });
 });
-app.post('/PRecipes', (req, res) => {
-  res.render('Recipes', { RecipesData });
-});
-app.get('/checkLogin', (req, res) => {
-  CRUD.loginCheck(req, res);
-});
 app.post('/checkLogin', (req, res) => {
   CRUD.loginCheck(req, res);
+});
+app.get('/USR_Recipes', (req, response) => {
+    CRUD.SelectUSRRec((error, UserRecipes) => {
+    if (error) {
+      console.error(error);
+      response.status(500).send('Error occurred');
+      return;
+    }
+    response.render('USR_Recipes', { UserRecipes });
+  });
 });
 
 app.post('/MyIng', (req, response) => {
@@ -168,11 +116,6 @@ app.post('/MyIng', (req, response) => {
   CRUD.DeleteUserING(req, response);
   // Pass the form data to CRUD function
   CRUD.InsertToUsersING(formValues, (err, result) => {
-    if (err) {
-      console.log(err);
-      response.status(500).send('Error occurred');
-      return;
-    }
     response.redirect('/UsrRec1');
   });
   });
@@ -197,3 +140,5 @@ app.get('/Back', (req, res) => {
 app.listen(port, () => {
   console.log('Server is running on port', port);
 });
+
+
